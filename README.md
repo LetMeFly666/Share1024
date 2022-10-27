@@ -31,6 +31,12 @@
 
 ```python
 """这个文件中的内容需要自己配置，打死也不要告诉他人哦"""
+SECRET_KEY = "django-insecure-qs0quxd^b0a0#2+6cxv)qs)(f(fx=m9ri_5#ladh8x5)i#cgh+"
+DATABASE_DBNAME = ''  # 数据库名称
+DATABASE_USER = ''  # 数据库用户名
+DATABASE_PASSWORD = ''  # 数据库密码
+DATABASE_HOST = ''  # 数据库服务器IP
+DATABASE_PORT = 3306  # 数据库端口
 ```
 
 **启动服务：**
