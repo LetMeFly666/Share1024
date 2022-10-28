@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-28 21:48:08
+LastEditTime: 2022-10-28 21:52:35
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -48,12 +48,12 @@ def oneCard(request):
         })
     return JsonResponse({
         "cardID": cardID,
-        "cardType": result.cardIs,
-        "shareBy": result.sharBy,
-        "get1": result.get1,
-        "get2": result.get2,
-        "get3": result.get3,
-        "gotTimes": result.gotTimes,
+        "cardType": result.first().cardIs,
+        "shareBy": result.first().sharBy,
+        "get1": result.first().get1,
+        "get2": result.first().get2,
+        "get3": result.first().get3,
+        "gotTimes": result.first().gotTimes,
     })
 
 
@@ -62,8 +62,8 @@ def oneCard_getURL(request):
     if not username:
         return redirect("/login.html")
     user = models.User.objects.filter(username=username)
-    if user.lastGot:
-        return redirect("/card1.html?cardID=" + user.lastGot)
+    if user.first().lastGot:
+        return redirect("/card1.html?cardID=" + user.first().lastGot)
     cardID = request.POST.get("cardID", "")
     if not cardID:
         return JsonResponse({
@@ -76,7 +76,7 @@ def oneCard_getURL(request):
             "leetcodeURL": "",
             "message": "Card doesn't exist"
         })
-    gotTimes = card.gotTimes
+    gotTimes = card.first().gotTimes
     if gotTimes > 2:
         return JsonResponse({
             "leetcodeURL": "",
@@ -90,7 +90,7 @@ def oneCard_getURL(request):
     })
     models.Got.objects.create(gotCardID=cardID, gotBy=username, shareCardID=0, state=0, th=gotTimes)
     return JsonResponse({
-        "leetcodeURL": card.leetcodeURL
+        "leetcodeURL": card.first().leetcodeURL
     })
 
 
@@ -100,7 +100,7 @@ def share(request):
     if not username:
         return redirect("/login.html")
     user = models.User.objects.filter(username=username)
-    lastGot = user.lastGot
+    lastGot = user.first().lastGot
     parentID = request.POST.get("parent", "")
     if lastGot and lastGot != parentID:
         return redirect("/card1.html?cardID=" + lastGot)
@@ -134,15 +134,15 @@ def share(request):
             "message": "We don't have a cardType of this"
         })
     got = models.Got.objects.filter(gotCardID=parentID, gotBy=username)
-    th = got.th
-    user.update(lastGot=0, shareNum=user.shareNum + 1)
+    th = got.first().th
+    user.update(lastGot=0, shareNum=user.first().shareNum + 1)
     newCard = models.Cards.objects.create(shareBy=username, cardIs=cardType, leetcodeURL=leetcodeURL)
-    got.update(shareCardID=newCard.cardID)
+    got.update(shareCardID=newCard.first().cardID)
     models.Cards.objects.filter(cardID=parentID).update(kwargs={
         f"get{th}": 1
     })
     return JsonResponse({
-        "newCardID": newCard.cardID
+        "newCardID": newCard.first().cardID
     })
     
 
@@ -151,7 +151,7 @@ def cannotUse(request):
     if not username:
         return redirect("/login.html")
     user = models.User.objects.filter(username=username)
-    lastGot = user.lastGot
+    lastGot = user.first().lastGot
     if not lastGot:
         return JsonResponse({
             "response": "",
@@ -168,7 +168,7 @@ def cannotUse(request):
         })
     user.update(lastGot=0)
     shareBy = models.User.objects.filter(username=card.shareBy)
-    shareBy.update(cannotUseTimes=shareBy.cannotUseTime + 1)
+    shareBy.update(cannotUseTimes=shareBy.first().cannotUseTime + 1)
     got = models.Got.objects.filter(gotCardID=cardID, gotBy=username)
     got.update(state=2)
     card.update(kwargs={
