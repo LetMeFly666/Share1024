@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Apps.apps.AppsConfig',  # 创建的APP
 ]
 
 MIDDLEWARE = [
