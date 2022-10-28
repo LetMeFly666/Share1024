@@ -37,6 +37,9 @@ DATABASE_USER = ''  # 数据库用户名
 DATABASE_PASSWORD = ''  # 数据库密码
 DATABASE_HOST = ''  # 数据库服务器IP
 DATABASE_PORT = 3306  # 数据库端口
+EMAIL_SENDER_NAME = "Tisfy@qq.com"  # 邮件发送者邮箱
+EMAIL_SENDER_PASSWORD = "LeetCode2022-1024Share"  # 邮件发送者密码
+
 ```
 
 **启动服务：**
