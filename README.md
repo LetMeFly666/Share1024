@@ -178,7 +178,7 @@ data
 }
 ```
 
-### /email/sendCode/
+### /mail/sendCode/
 
 **方法**
 
@@ -223,7 +223,7 @@ GET
 }
 ```
 
-### /card/remain/oneType?cardType={卡牌类型}
+### /card/remain/oneType/?cardType={卡牌类型}
 
 返回某（一）种卡牌的所有未被领取的卡牌的ID
 
