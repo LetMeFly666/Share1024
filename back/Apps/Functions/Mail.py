@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 14:22:43
 LastEditors: LetMeFly
-LastEditTime: 2022-10-28 18:06:09
+LastEditTime: 2022-10-28 19:41:58
 '''
 import smtplib
 from email.mime.text import MIMEText
@@ -11,10 +11,10 @@ from email.header import Header
 from Secrets import EMAIL_SENDER_NAME, EMAIL_SENDER_PASSWORD
 
 
-def sendEmail(to_who="Tisfy@qq.com", title="Share1024", text="力扣1024卡牌分享网 欢迎您"):
+def sendEmail(toWho="Tisfy@qq.com", title="Share1024 验证码", text="力扣1024卡牌分享网 欢迎您"):
     my_sender = EMAIL_SENDER_NAME  # 发件人邮箱账号
     my_pass = EMAIL_SENDER_PASSWORD  # 发件人邮箱密码
-    my_user = to_who  # 收件人邮箱账号，我这边发送给自己
+    my_user = toWho  # 收件人邮箱账号，我这边发送给自己
 
     def mail():
         ret = True
@@ -64,10 +64,6 @@ def sendEmail_html(to_who_list=["Tisfy@qq.com"], title="Share1024", html="<font 
         print("邮件发送成功")
     except smtplib.SMTPException:
         print("Error: 无法发送邮件")
-
-
-def sendCode(request):
-    pass
 
 
 if __name__ == "__main__":

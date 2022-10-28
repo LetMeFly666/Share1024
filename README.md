@@ -140,7 +140,31 @@ data
 ```json
 {
     "response": "fail",
-    "message": "账号或密码不正确"
+    "message": "Username or password wrong"
+}
+```
+
+其中，message当前支持：
+
++ 账号或密码为空：```There isn't a username or password in the request```
++ 账号或密码不正确：```Username or password wrong```
++ 该账号不存在：```No such user```
+
+### /user/logout/
+
+**方法**
+
+POST
+
+**请求**
+
+为空即可
+
+**响应**
+
+```json
+{
+    "response": "ok"
 }
 ```
 
@@ -174,15 +198,32 @@ data
 ```json
 {
     "response": "fail",
-    "message": "验证码不正确"
+    "message": "Verification Code unavailable"
 }
 ```
 
-### /mail/sendCode/
+其中，message当前支持：
+
++ 用户名不合法：```Username unavailable```
++ 邮箱不合法：```Email unavailable```
++ 密码不合法：```Password unavailable```
++ 验证码不正确：```Verification Code unavailable```
+
+### /user/register/sendCode/
 
 **方法**
 
 POST
+
+**请求**
+
+data
+
+```json
+{
+    "email": "Tisfy@qq.com"
+}
+```
 
 **返回**
 
@@ -199,9 +240,15 @@ POST
 ```json
 {
     "code": "",
-    "message": "发送过于频繁"
+    "message": "Request too fast"
 }
 ```
+
+其中，message当前支持：
+
++ 发送过于频繁：```Request too fast```
++ 邮件地址不合法：```Email unavailable```
++ 其他原因的邮件发送失败：```Email send failed```
 
 ### /card/remain/all/
 
@@ -255,11 +302,13 @@ GET
 
 **返回**
 
+若获取成功
+
 ```json
 {
     "cardID": 125,
     "cardType": "007",
-    "shardBy": "tisfy",  // 分享者
+    "shareBy": "tisfy",  // 分享者
     "get1": 1,  //    |- 0：待领取    
     "get2": 2,  // ---|  1：已领取
     "get3": 0,  //    |- 2：被报无效
@@ -267,6 +316,19 @@ GET
     // 注意，这里不包含力扣的卡牌领取链接，白嫖达咩
 }
 ```
+
+若获取失败
+
+```json
+{
+    "cardID": 0,
+    "message": "Card doesn't exist"
+}
+```
+
+其中，message当前支持：
+
++ 卡牌不存在：```Card doesn't exist```
 
 ### /card/oneCard/getURL/
 
@@ -296,17 +358,17 @@ data:
 }
 ```
 
-若未登录：
+若未登录：返回 到登录界面的```redirect```
 
-返回 到登录界面的```redirect```
+若登录且有未传递的卡牌：返回 到卡牌传递界面的```redirect```
 
-登录且有未传递的卡牌：
+若卡牌为空或不存在：返回```{"leetcodeURL": "", "message": "Card doesn't exist"}```
 
-返回 到卡牌传递界面的```redirect```
+若卡牌被领完：返回```{"leetcodeURL": "", "message": "Too late, all cards were taken"}```
 
 ### /card/share/
 
-分享一张卡牌
+分享一张卡牌（为判断传递卡牌和原始卡牌是否相同）
 
 **方法**
 
@@ -316,20 +378,64 @@ POST
 
 ```json
 {
-    "parent": "",  // 若为领取后的传递而不是直接分享，则parent为空串；否则parent为领取自的卡牌
+    "parent": "",  // 若为领取后的传递而不是直接分享，则parent为空串；否则parent为领取自的卡牌  // 若parent的ID不合法，则默认为直接分享
     "leetcodeURL": "https://leetcode.cn/2022-1024?id=1111111&userSlug=tisfy",  // 力扣卡牌分享链接
     "type": "007",  // 卡牌类型
-    "remain": "3"  // 这张卡牌还剩几张（默认为3），不提倡，要保证没有公开卡牌分享链接
+    // "remain": "3"  // 这张卡牌还剩几张（默认为3），不提倡，要保证没有公开卡牌分享链接
 }
 ```
 
 **返回**
 
+若成功：
+
+```json
+{
+    "newCardID": 1024
+}
+```
+
+若未登录：返回 到登录界面的```redirect```
+
+若登录且有未传递的卡牌且未传递的卡牌不是这张卡牌：返回 到正确的卡牌传递界面的```redirect```
+
+若力扣卡牌链接不合法：返回 ```{"newCardID": "", "message": "Not a right link"}```
+
+若卡牌类型不存在：返回 ```{"newCardID": "", "message": "We don't have a cardType of this"}```
+
+### /card/cannotUse/
+
+报无效
+
+**方法**
+
+POST
+
+**请求**
+
+data
+
+```json
+{
+    "cardID": 159
+}
+```
+
+**响应**
+
+若成功：
+
 ```json
 {
     "response": "ok"
 }
-```
+````
 
+若未登录：返回 到登录界面的```redirect```
 
+若登录且有为传递的卡牌且未传递的卡牌不是这张卡牌：返回 到正确的卡牌传递界面的```redirect```
+
+若登录且无未传递的卡牌：返回```{"response": "", "message": "Sorry, you shouldn't report this card"}```
+
+若被报卡牌不存在：返回```{"response": "", "message": "The cardID is unavailable"}```
 
