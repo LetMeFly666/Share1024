@@ -56,3 +56,280 @@ python manage.py migrate
 ```bash
 python manage.py runserver
 ```
+
+## 接口说明
+
+以下说明了后端为前端提供的各种接口，我提供这些接口是为了方便用户写程序去调用（比如卡牌监控等），但是请注意调用频率，不要对服务器照成太大的压力。推荐频率：1次/秒（蒟蒻的服务器不抗揍）
+
+### /user/baseInfo/
+
+获取用户基本信息
+
+**方法**
+
+GET
+
+**返回**
+
+若未登录：
+
+```json
+{"login": false}
+```
+
+若已登录：
+
+```json
+{
+    "username": "tisfy",
+    "cardNotShare": ""  // 是否有领取但为传递的卡牌。如果无，则为空；如果有，则为卡牌ID
+}
+```
+
+### /user/cards/
+
+获取用户卡牌信息
+
+**方法**
+
+GET
+
+**返回**
+
+若未登录，则返回 到登录界面的```redirect```
+
+若已登录，则返回
+
+```json
+{
+    "shared": [123, 542],  // 所分享的卡牌ID
+    "got": [120, 521],  // 所领取的卡牌ID
+    "error": [542],  // 被报失效的卡牌
+}
+```
+
+### /user/login/
+
+**方法**
+
+POST
+
+**请求**
+
+data
+
+```json
+{
+    "username": "tisfy",
+    "password": "LeetCode2022-1024Share"
+}
+```
+
+**返回**
+
+若登录成功
+
+```json
+{
+    "response": "ok"
+}
+```
+
+否则
+
+```json
+{
+    "response": "fail",
+    "message": "账号或密码不正确"
+}
+```
+
+### /user/register/
+
+**请求**
+
+data
+
+```json
+{
+    "username": "tisfy",
+    "password": "LeetCode2022-1024Share",
+    "email": "Tisfy@qq.com",
+    "code": "1234",  // 邮箱验证码
+}
+```
+
+**返回**
+
+若注册成功
+
+```json
+{
+    "response": "ok"
+}
+```
+
+否则
+
+```json
+{
+    "response": "fail",
+    "message": "验证码不正确"
+}
+```
+
+### /email/sendCode/
+
+**方法**
+
+POST
+
+**返回**
+
+若成功
+
+```json
+{
+    "code": "1234"
+}
+```
+
+否则
+
+```json
+{
+    "code": "",
+    "message": "发送过于频繁"
+}
+```
+
+### /card/remain/all/
+
+获取有多少张未被领取完的卡牌
+
+**方法**
+
+GET
+
+**返回**
+
+返回所有卡牌的未被领取数量（一张卡牌最多算一次）
+
+```json
+{
+    "0": 21,
+    "1": 50,
+    // ...
+}
+```
+
+### /card/remain/oneType?cardType={卡牌类型}
+
+返回某（一）种卡牌的所有未被领取的卡牌的ID
+
+注意，```&```在此处被编码为```AND```
+
+**方法**
+
+GET
+
+**示例**
+
+```
+/card/remain/oneType?cardType=007
+```
+
+**返回**
+
+```json
+[125, 129, 510, 515]
+```
+
+### /card/oneCard/?cardID={卡牌ID}
+
+返回某张卡牌的具体信息
+
+**方法**
+
+GET
+
+**返回**
+
+```json
+{
+    "cardID": 125,
+    "cardType": "007",
+    "shardBy": "tisfy",  // 分享者
+    "get1": 1,  //    |- 0：待领取    
+    "get2": 2,  // ---|  1：已领取
+    "get3": 0,  //    |- 2：被报无效
+    "gotTimes": 2,  // 也能由get123求得
+    // 注意，这里不包含力扣的卡牌领取链接，白嫖达咩
+}
+```
+
+### /card/oneCard/getURL/
+
+领取一张卡牌
+
+**方法**
+
+POST
+
+**请求**
+
+data:
+
+```json
+{
+    "cardID": 1221,
+}
+```
+
+**返回**
+
+正常：
+
+```json
+{
+    "leetcodeURL": "https://leetcode.cn/2022-1024?id=1111111&userSlug=tisfy"
+}
+```
+
+若未登录：
+
+返回 到登录界面的```redirect```
+
+登录且有未传递的卡牌：
+
+返回 到卡牌传递界面的```redirect```
+
+### /card/share/
+
+分享一张卡牌
+
+**方法**
+
+POST
+
+**请求**
+
+```json
+{
+    "parent": "",  // 若为领取后的传递而不是直接分享，则parent为空串；否则parent为领取自的卡牌
+    "leetcodeURL": "https://leetcode.cn/2022-1024?id=1111111&userSlug=tisfy",  // 力扣卡牌分享链接
+    "type": "007",  // 卡牌类型
+    "remain": "3"  // 这张卡牌还剩几张（默认为3），不提倡，要保证没有公开卡牌分享链接
+}
+```
+
+**返回**
+
+```json
+{
+    "response": "ok"
+}
+```
+
+
+
