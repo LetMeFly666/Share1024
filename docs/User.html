@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-29 20:11:35
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-29 21:33:55
+ * @LastEditTime: 2022-10-29 21:38:41
 -->
 <!DOCTYPE html>
 <html>
@@ -31,6 +31,7 @@
 
             <h3>力扣昵称：<div id="User" style="display: inline;"><div id="User_Text" style="display: inline;"></div></div></h3>
             <button class="btn btn-primary" id="quitOrGotoLoginButton" onclick="quit();">退出登录</button>
+            <button class="btn btn-primary" onclick="return2index();">返回主页</button>
         </div>
 
         <div style="text-align: center; width: 100%;">
@@ -65,6 +66,10 @@
     </footer>
 
     <script>
+        function return2index() {
+            location.href = "index.html";
+        }
+
         function quit() {
             const warrant1024 = getCookie("warrant1024");
             if (!warrant1024) {
