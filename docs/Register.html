@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-29 10:17:00
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-29 13:55:38
+ * @LastEditTime: 2022-10-29 16:57:13
 -->
 <!DOCTYPE html>
 <html>
@@ -157,7 +157,7 @@
                     "email": mail,
                     "code": code,  // 邮箱验证码
                 },
-                function(response, status) {
+                function(response, status, xhr) {
                     if (status == "success") {
                         if (response.response == "ok") {  // 发送成功！！
                             alert(" 注册成功！ ", hei=60, time=2500);
