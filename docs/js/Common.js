@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-29 09:59:22
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-29 13:50:10
+ * @LastEditTime: 2022-10-29 19:47:40
  */
 function adjust() {
     // adjustFooter
@@ -17,10 +17,32 @@ function parseUrlParm() {  // 仅支持一个?
     return data;
 }
 
+function setCookie(cname, cvalue) {
+    // 此函数参考自[菜鸟教程](https://www.runoob.com/js/js-cookies.html)
+    document.cookie = cname + "=" + cvalue + "; expires=Mon, 05 Oct 2122 11:05:52 GMT; path=/";
+}
+
+function getCookie(cname) {
+    // 此函数参考自[菜鸟教程](https://www.runoob.com/js/js-cookies.html)
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i].trim();
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    }
+    return "";
+}
+
 function getUserInfo() {
     var info = {"login": false};
-    $.get(
+    if (!getCookie("warrant1024")) {
+        return info;
+    }
+    $.post(
         "https://back.share1024.letmefly.xyz/user/baseInfo/",
+        {
+            "warrant1024": getCookie("warrant1024")
+        },
         function(response, status) {
             if (status == "success") {
                 info = response;
@@ -50,5 +72,6 @@ function getUserInfo() {
                 }, 1000);
             }
         }
+        return info;
     });
 }
