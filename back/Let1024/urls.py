@@ -18,6 +18,13 @@ from django.urls import path
 from Apps.Functions import Card
 from Apps.Functions import User
 
+
+def setsession(request):
+    from django.http import JsonResponse
+    request.session["username"] = "666"
+    return JsonResponse({"response", "ok"})
+
+
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path("user/baseInfo/", User.baseInfo),
@@ -32,4 +39,5 @@ urlpatterns = [
     path("card/oneCard/getURL/", Card.oneCard_getURL),
     path("card/share/", Card.share),
     path("card/cannotUse/", Card.cannotUse),
+    path("setsession/", setsession),  # DEBUG session
 ]
