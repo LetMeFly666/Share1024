@@ -22,11 +22,8 @@ from Apps.Functions import User
 def setsession(request):
     from django.http import JsonResponse
     request.session["username"] = "666"
-    response = JsonResponse({"response": "ok"})
-    print(response)
-    print(response.cookies)
-    print(dir(response))
-    return response 
+    print(request.session.session_key)
+    return JsonResponse({"response": "ok"})
 
 
 urlpatterns = [
