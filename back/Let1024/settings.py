@@ -129,10 +129,10 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Session
-SESSION_COOKIE_AGE = 60 * 60 * 24 * 365 * 100  # 100年
-SESSION_SAVE_EVERY_REQUEST = True
-# SESSION_COOKIE_DOMAIN = "liveserver.com"   # TODO: 修改为share1024.letmefly.xyz
-SESSION_COOKIE_DOMAIN = "share1024.letmefly.xyz"
-SESSION_COOKIE_HTTPONLY = False
+# # Session
+# SESSION_COOKIE_AGE = 60 * 60 * 24 * 365 * 100  # 100年
+# SESSION_SAVE_EVERY_REQUEST = True
+# # SESSION_COOKIE_DOMAIN = "liveserver.com"   # TODO 修改为share1024.letmefly.xyz
+# SESSION_COOKIE_DOMAIN = "share1024.letmefly.xyz"
+# SESSION_COOKIE_HTTPONLY = False
 
