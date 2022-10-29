@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-29 20:11:35
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-29 21:01:23
+ * @LastEditTime: 2022-10-29 21:17:26
 -->
 <!DOCTYPE html>
 <html>
@@ -31,6 +31,22 @@
 
             <h3>力扣昵称：<div id="User" style="display: inline;"><div id="User_Text" style="display: inline;"></div></div></h3>
             <button class="btn btn-primary" id="quitOrGotoLoginButton" onclick="quit();">退出登录</button>
+        </div>
+
+        <div style="text-align: center; width: 100%;">
+            <h2>你的卡牌</h2>
+        </div>
+        <div class="col-sm-4">
+            <h3>所分享</h3>
+            <ul class="list-group" id="listShare"></ul>
+        </div>
+        <div class="col-sm-4">
+            <h3>所领取</h3>
+            <ul class="list-group" id="listGet"></ul>
+        </div>
+        <div class="col-sm-4">
+            <h3>被报失效</h3>
+            <ul class="list-group" id="listCannotUse"></ul>            
         </div>
     </div>
 
@@ -75,6 +91,41 @@
     </script>
 
     <script id="InitScript">
+        function render1type(listSelector, cardIDs) {
+            if (!cardIDs) {
+                $(listSelector).text("暂无");
+            }
+        }
+
+        function getCards() {
+            const warrant1024 = getCookie("warrant1024");
+            if (!warrant1024) {
+                render1type("#listShare", []);
+                render1type("#listGet", []);
+                render1type("#listCannotUse", []);
+                return;
+            }
+            $.get(
+                "https://back.share1024.letmefly.xyz/user/cards/",
+                {
+                    "warrant1024": warrant1024
+                },
+                function(response, status) {
+                    if (status == "success") {
+                        render1type("#listShare", response.shared);
+                        render1type("#listGet", response.got);
+                        render1type("#listCannotUse", response.error);
+                    }
+                    else {
+                        alert(status);
+                    }
+                },
+                "json"
+            ).fail(function() {
+                alert(" 未知错误 ", 60, 2000);
+            });
+        }
+
         function initUserInfo() {
             getUserInfo(null, null, function() {
                 $("#User").children("#User_Text").text("未登录");
@@ -88,6 +139,7 @@
         $(() => {  // Onload
             adjust();
             initUserInfo();
+            getCards();
         });
 
         $(window).resize(() => adjust());

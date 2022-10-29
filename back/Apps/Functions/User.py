@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:15
 LastEditors: LetMeFly
-LastEditTime: 2022-10-29 20:02:37
+LastEditTime: 2022-10-29 21:12:24
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -31,12 +31,20 @@ def baseInfo(request):
 
 
 def cards(request):
-    warrant1024 = request.POST.get("warrant1024", "")
+    warrant1024 = request.GET.get("warrant1024", "")
     if not warrant1024:
-        return redirect("/login.html")
+        return JsonResponse({
+            "shared": shared,
+            "got": got,
+            "error": error
+        })
     result = models.Cookie.objects.filter(warrant1024=warrant1024)
     if not len(result):
-        return redirect("/login.html")
+        return JsonResponse({
+            "shared": shared,
+            "got": got,
+            "error": error
+        })
     username = result.first().username
     result = models.Cards.objects.filter(username=username)
     shared = []
