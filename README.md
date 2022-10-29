@@ -67,7 +67,17 @@ python manage.py runserver
 
 **方法**
 
-GET
+POST
+
+**请求**
+
+data
+
+```json
+{
+    "warrant1024": "theWarrant484s48e4fs84e"
+}
+```
 
 **返回**
 
@@ -131,7 +141,7 @@ data
 
 ```json
 {
-    "response": "ok"
+    "warrant1024": "theWarrant484s48e4fs84e"
 }
 ```
 
@@ -139,7 +149,7 @@ data
 
 ```json
 {
-    "response": "fail",
+    "warrant1024": "",
     "message": "Username or password wrong"
 }
 ```
@@ -189,7 +199,7 @@ data
 
 ```json
 {
-    "response": "ok"
+    "warrant1024": "theWarrant484s48e4fs84e"
 }
 ```
 
@@ -197,7 +207,7 @@ data
 
 ```json
 {
-    "response": "fail",
+    "warrant1024": "",
     "message": "Verification Code unavailable"
 }
 ```

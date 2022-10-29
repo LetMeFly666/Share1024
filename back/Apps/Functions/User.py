@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:15
 LastEditors: LetMeFly
-LastEditTime: 2022-10-29 16:43:39
+LastEditTime: 2022-10-29 19:37:36
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -14,9 +14,13 @@ import re
 
 
 def baseInfo(request):
-    username = request.session.get("username", "")
-    if not username:
+    warrant1024 = request.POST.get("warrant1024", "")
+    if not warrant1024:
         return JsonResponse({"login": False})
+    result = models.Cookie.objects.filter(warrant1024=warrant1024)
+    if not len(result):
+        return JsonResponse({"login": False})
+    username = result.first().username
     result = models.User.objects.filter(username=username)
     lastGot = result.first().lastGot
     return JsonResponse({
@@ -27,9 +31,13 @@ def baseInfo(request):
 
 
 def cards(request):
-    username = request.session.get("username", "")
-    if not username:
+    warrant1024 = request.POST.get("warrant1024", "")
+    if not warrant1024:
         return redirect("/login.html")
+    result = models.Cookie.objects.filter(warrant1024=warrant1024)
+    if not len(result):
+        return redirect("/login.html")
+    username = result.first().username
     result = models.Cards.objects.filter(username=username)
     shared = []
     error = []
@@ -54,29 +62,32 @@ def login(request):  # 不考虑已登录状态下的再登录
     password = data.get("password", "")
     if (not username) or (not password):
         return JsonResponse({
-            "response": "fail",
+            "warrant1024": "",
             "message": "There isn't a username or password in the request"
         })
     result = models.User.objects.filter(username)
     if not result:
         return JsonResponse({
-            "response": "fail",
+            "warrant1024": "",
             "message": "No such user"
         })
     if result.first().password != password:
         return JsonResponse({
-            "response": "fail",
+            "warrant1024": "",
             "message": "Username or password wrong"
         })
-    request.session["username"] = username
+    warrant1024 = "".join(random.choice("abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") for i in range(20))
+    models.Cookie.objects.create(warrant1024=warrant1024, username=username)
     return JsonResponse({
-        "response": "ok"
+        "warrant1024": warrant1024
     })
 
 
-def logout(request):
+def logout(request):  # 未考虑是否已经登录
     if request.method == "POST":
-        request.session.clear()
+        warrant1024 = request.POST.get("warrant1024", "")
+        if warrant1024:
+            models.Cookie.objects.filter(warrant1024=warrant1024).delete()
         return JsonResponse({
             "response": "ok"
         })
@@ -141,28 +152,29 @@ def register(request):
     code = data.get("code", "")
     if (not username) or (not ifAviliableUsername(username=username)):
         return JsonResponse({
-            "response": "fail",
+            "warrant1024": "",
             "message": "Username unavailable"
         })
     if (not email) or (not ifAviliableEmail(email=email)):
         return JsonResponse({
-            "response": "fail",
+            "warrant1024": "",
             "message": "Email unavailable"
         })
     if (not password) or (not ifAviliablePassword(password=password)):
         return JsonResponse({
-            "response": "fail",
+            "warrant1024": "",
             "message": "Password unavailable"
         })
     if (not code) or (not ifAviliableVericodeAndDelete(email=email, vericode=code)):
         return JsonResponse({
-            "response": "fail",
+            "warrant1024": "",
             "message": "Verification Code unavailable"
         })
     models.User.objects.create(username=username, password=password, email=email)
-    request.session["username"] = username
+    warrant1024 = "".join(random.choice("abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") for i in range(20))
+    models.Cookie.objects.create(warrant1024=warrant1024, username=username)
     return JsonResponse({
-        "response": "ok"
+        "warrant1024": warrant1024
     })
 
 

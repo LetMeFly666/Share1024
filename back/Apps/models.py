@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 11:46:50
 LastEditors: LetMeFly
-LastEditTime: 2022-10-28 17:33:53
+LastEditTime: 2022-10-29 19:26:00
 '''
 from django.db import models
 
@@ -38,3 +38,7 @@ class Got(models.Model):
     shareCardID = models.IntegerField(verbose_name="传递的卡牌ID", default=0)
     state = models.IntegerField(verbose_name="状态", default=0)  # 0：已领取  1：已分享  2：报无效
     th = models.IntegerField(verbose_name="此卡的第几次被领取")
+
+class Cookie(models.Model):
+    warrant1024 = models.CharField(verbose_name="warrant", max_length=20)
+    username = models.CharField(verbose_name="被谁领取", max_length=20)  # Link to username
