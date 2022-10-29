@@ -25,6 +25,7 @@ def setsession(request):
     response = JsonResponse({"response": "ok"})
     print(response)
     print(response.cookies)
+    print(dir(response))
     return response 
 
 
