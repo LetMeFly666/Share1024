@@ -135,3 +135,4 @@ SESSION_SAVE_EVERY_REQUEST = True
 # SESSION_COOKIE_DOMAIN = "liveserver.com"   # TODO: 修改为share1024.letmefly.xyz
 SESSION_COOKIE_DOMAIN = "share1024.letmefly.xyz"
 SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = True
