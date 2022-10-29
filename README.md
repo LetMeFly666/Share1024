@@ -177,7 +177,7 @@ data
 ```json
 {
     "username": "tisfy",
-    "password": "LeetCode2022-1024Share",
+    "password": "LeetCode2022and1024Share",
     "email": "Tisfy@qq.com",
     "code": "1234",  // 邮箱验证码
 }
