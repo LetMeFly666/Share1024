@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-27 10:28:57
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-29 10:19:59
+ * @LastEditTime: 2022-10-29 13:54:14
 -->
 <!DOCTYPE html>
 <html>
@@ -20,7 +20,7 @@
 
 <body>
     
-    <a id="User" href="/login.html" style="position: absolute; top: 0; border: 0; right: 30px; font-family: 楷体; border: 2px solid rgb(51, 122, 192);"><h2>点我登录</h2></a>
+    <a id="User" href="login.html" style="position: absolute; top: 0; border: 0; right: 30px; font-family: 楷体; border: 2px solid rgb(51, 122, 192);"><h2 id="User_Text">点我登录</h2></a>
 
     <div class="container">
         <div class="jumbotron">
@@ -46,6 +46,7 @@
     <script id="InitScript">
         $(() => {  // Onload
             adjust();
+            getUserInfo();
         });
 
         $(window).resize(() => adjust());

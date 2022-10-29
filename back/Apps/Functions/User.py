@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:15
 LastEditors: LetMeFly
-LastEditTime: 2022-10-29 13:04:57
+LastEditTime: 2022-10-29 13:59:49
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
