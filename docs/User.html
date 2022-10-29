@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-29 20:11:35
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-29 21:17:26
+ * @LastEditTime: 2022-10-29 21:33:55
 -->
 <!DOCTYPE html>
 <html>
@@ -92,8 +92,13 @@
 
     <script id="InitScript">
         function render1type(listSelector, cardIDs) {
-            if (!cardIDs) {
-                $(listSelector).text("暂无");
+            if (!cardIDs.length) {
+                $(listSelector).append("<li class=\"list-group-item\">暂无卡牌</li>");
+            }
+            else {
+                for (var i = 0; i < cardIDs.length; i++) {
+                    $(listSelector).append(`<li class="list-group-item"><a href="card1.html?cardID=${cardIDs[i]}">${cardIDs[i]}</a></li>`);
+                }
             }
         }
 

@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:15
 LastEditors: LetMeFly
-LastEditTime: 2022-10-29 21:21:00
+LastEditTime: 2022-10-29 21:35:11
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -31,6 +31,12 @@ def baseInfo(request):
 
 
 def cards(request):
+    "TEST"
+    return JsonResponse({
+        "shared": [123, 542],
+        "got": [120, 521],
+        "error": [542],
+    })
     warrant1024 = request.GET.get("warrant1024", "")
     if not warrant1024:
         return JsonResponse({
