@@ -1,0 +1,138 @@
+<!--
+ * @Author: LetMeFly
+ * @Date: 2022-10-29 19:56:54
+ * @LastEditors: LetMeFly
+ * @LastEditTime: 2022-10-29 20:01:08
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>登录</title>
+    <meta charset="utf-8">
+    <script src="https://letmefly.xyz/Links/Common.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://letmefly.xyz/Links/bootstrap.min.css">
+    <script src="https://letmefly.xyz/Links/jquery.min.js"></script>
+    <script src="https://letmefly.xyz/Links/bootstrap.min.js"></script>
+    <script src="js/Common.js"></script>
+</head>
+
+<body>
+    
+    <div class="container">
+        <div class="jumbotron">
+            <h1>1024卡牌分享网 - 登录</h1>
+            <div id="LeetCodeIDTipsDiv" style="display: none;">
+                <h3>请填写力扣ID</h3>
+            </div>
+            <div id="PasswordTipsDiv" style="display: none;">
+                <h3>请输入你的密码</h3>
+            </div>
+        </div>
+
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="leetcodeID" class="col-sm-2 control-label">力扣ID</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="LeetCodeIDInput" placeholder="请输入力扣ID，注意不是力扣昵称哦~">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="mail" class="col-sm-2 control-label">密码</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="PasswordInput" placeholder="请输入你的密码。">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="button" value="登录" class="btn btn-primary" onclick="login()" style="width: 100%;"></input>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+
+    <div class="beforeFooter" id="beforeFooter"></div>
+    <footer class="navbar-fixed-bottom" id="footer">
+        <div class="container" style="background-color: #eeeeee">
+            <div class="row">
+                <div class="col-sm-4">项目地址: <a href="https://github.com/LetMeFly666/Share1024" target="blank">https://github.com/LetMeFly666/Share1024</a></div>
+                <div class="col-sm-4">在线地址：<a href="https://share1024.letmefly.xyz" target="blank">https://Share1024.LetMeFly.xyz </a></div>
+                <div class="col-sm-4">
+                    <span>使用 <a href="https://www.bootcss.com" target="blank">BootStrap</a>、<a href="https://jquery.com" target="blank">jQuery</a></span>
+                    <span>By <a href="https://letmefly.xyz" target="blank">LetMeFly</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script name="ForThisPage">
+        function login() {
+            const leetcodeID = $("#LeetCodeIDInput").val();
+            if (!leetcodeID) {
+                alert(" 请填写力扣ID ", hei=60, time=2500);
+                return -1;
+            }
+            const password = $("#PasswordInput").val();
+            if (!password) {
+                alert(" 请填写密码 ", hei=60, time=2500);
+            }
+            $.post(
+                "https://back.share1024.letmefly.xyz/user/login/",
+                {
+                    "username": leetcodeID,
+                    "password": password,
+                },
+                function(response, status, xhr) {
+                    if (status == "success") {
+                        if (response.warrant1024) {  // 登录成功！！
+                            alert(" 登录成功！ ", hei=60, time=2500);
+                            setCookie("warrant1024", response.warrant1024);
+                            setTimeout(() => {
+                                location.href = "index.html";
+                            }, 2000);
+                        }
+                        else {
+                            alert(response.message);
+                        }
+                    }
+                    else {
+                        alert(status);
+                    }
+                }
+            ).fail(function() {
+                alert(" 未知错误，发送失败！ ", hei=60, time=2500);
+            });
+
+        }
+
+        $("#LeetCodeIDInput").focus(
+            function() {
+                $("#LeetCodeIDTipsDiv").css("display", "");
+                $("#PasswordTipsDiv").attr("style", "display: none");
+            }
+        )
+        $("#PasswordInput").focus(
+            function() {
+                $("#LeetCodeIDTipsDiv").attr("style", "display: none");
+                $("#PasswordTipsDiv").css("display", "");
+            }
+        )
+    </script>
+
+    <script id="InitScript">
+        $(() => {  // Onload
+            adjust();
+        });
+
+        $(window).resize(() => adjust());
+    </script>
+
+    <script src="https://utteranc.es/client.js" repo="LetMeFly666/Share1024" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script>
+
+</body>
+
+</html>

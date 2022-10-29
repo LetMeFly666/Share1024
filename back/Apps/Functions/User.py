@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:15
 LastEditors: LetMeFly
-LastEditTime: 2022-10-29 19:37:36
+LastEditTime: 2022-10-29 20:02:37
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -65,7 +65,7 @@ def login(request):  # 不考虑已登录状态下的再登录
             "warrant1024": "",
             "message": "There isn't a username or password in the request"
         })
-    result = models.User.objects.filter(username)
+    result = models.User.objects.filter(username=username)
     if not result:
         return JsonResponse({
             "warrant1024": "",

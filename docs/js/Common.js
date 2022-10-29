@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-29 09:59:22
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-29 19:47:40
+ * @LastEditTime: 2022-10-29 19:53:45
  */
 function adjust() {
     // adjustFooter
@@ -59,7 +59,7 @@ function getUserInfo() {
         if ($("#User")) {
             if (info.username) {
                 $("#User").children("#User_Text").text(info.username);
-                $("#User").children("#User_Text").attr("href", "User.html");
+                $("#User").attr("href", "User.html");
             }
             if (info.cardNotShare) {
                 alert(" 有领取的卡牌未传递哦 ", height=60, time=2000);
