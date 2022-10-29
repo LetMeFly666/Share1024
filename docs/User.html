@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-29 20:11:35
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-29 20:44:33
+ * @LastEditTime: 2022-10-29 21:01:23
 -->
 <!DOCTYPE html>
 <html>
@@ -30,7 +30,7 @@
             </ul>
 
             <h3>力扣昵称：<div id="User" style="display: inline;"><div id="User_Text" style="display: inline;"></div></div></h3>
-            <button class="btn btn-primary" id="quitOrGotoLoginButton">退出登录</button>
+            <button class="btn btn-primary" id="quitOrGotoLoginButton" onclick="quit();">退出登录</button>
         </div>
     </div>
 
@@ -47,6 +47,32 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        function quit() {
+            const warrant1024 = getCookie("warrant1024");
+            if (!warrant1024) {
+                return alert(" 未登录 ", 60, 2000);
+            }
+            $.post(
+                "https://back.share1024.letmefly.xyz/user/logout/",
+                {
+                    "warrant1024": warrant1024
+                },
+                function(response, status) {
+                    if (status == "success" && response.response == "ok") {
+                        alert(" 退出登录成功 ", 60, 2000);
+                        setTimeout(() => {
+                            location.href = location.href;
+                        }, 1500);
+                    }
+                },
+                "json"
+            ).fail(function() {
+                alert(" 退出失败 ", 60, 2000);
+            });
+        }
+    </script>
 
     <script id="InitScript">
         function initUserInfo() {

@@ -168,7 +168,13 @@ POST
 
 **请求**
 
-为空即可
+data
+
+```json
+{
+    "warrant1024": "theWarrant484s48e4fs84e"
+}
+```
 
 **响应**
 
