@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 14:22:43
 LastEditors: LetMeFly
-LastEditTime: 2022-10-28 19:41:58
+LastEditTime: 2022-10-29 12:26:24
 '''
 import smtplib
 from email.mime.text import MIMEText
@@ -31,7 +31,8 @@ def sendEmail(toWho="Tisfy@qq.com", title="Share1024 验证码", text="力扣102
         except smtplib.SMTPRecipientsRefused:
             print("地址错误")
             ret = False
-        except Exception:  # 如果 try 中的语句没有执行，则会执行下面的 ret=False
+        except Exception as e:  # 如果 try 中的语句没有执行，则会执行下面的 ret=False
+            print(e)
             ret = False
         '''
          raise SMTPRecipientsRefused(senderrs)
