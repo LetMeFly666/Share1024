@@ -231,7 +231,7 @@ data
 
 ```json
 {
-    "code": "1234"
+    "response": "ok"
 }
 ```
 
@@ -239,7 +239,7 @@ data
 
 ```json
 {
-    "code": "",
+    "response": "",
     "message": "Request too fast"
 }
 ```

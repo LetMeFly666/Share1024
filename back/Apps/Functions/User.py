@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:15
 LastEditors: LetMeFly
-LastEditTime: 2022-10-29 12:24:44
+LastEditTime: 2022-10-29 12:48:57
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -170,7 +170,7 @@ def register_sendCode(request):
     email = request.POST.get("email", "")
     if (not email) or (not re.match("^\w{1,}(\.\w+)*@[A-z0-9]+(\.[A-z]{2,5}){1,2}$", email)):
         return JsonResponse({
-            "code": "",
+            "response": "",
             "message": "Email unavailable"
         })
     resultDB = models.Email.objects.filter(email=email)
@@ -181,7 +181,7 @@ def register_sendCode(request):
         timeDiff = timeDelta.seconds + timeDelta.days * 24 * 3600
         if timeDiff < 60 * 5:  # 5分钟
             return JsonResponse({
-                "code": "",
+                "response": "",
                 "message": "Request too fast"
             })
     code = "".join(str(random.randint(0, 9)) for i in range(6))
@@ -192,11 +192,11 @@ def register_sendCode(request):
         else:
             models.Email.objects.create(email=email, code=code)
         return JsonResponse({
-            "code": code
+            "response": "ok"
         })
     else:
         return JsonResponse({
-            "code": "",
+            "response": "",
             "message": "Email send failed"
         })
 
