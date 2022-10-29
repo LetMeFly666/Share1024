@@ -439,3 +439,6 @@ data
 
 若被报卡牌不存在：返回```{"response": "", "message": "The cardID is unavailable"}```
 
+## End
+
+By the way，通过a.com的网页向b.a.com发送登录请求，b.a.com真的没有办法直接设置a.com的cookie吗？X_X 或者说，三级域名能设置二级域名的cookie吗
