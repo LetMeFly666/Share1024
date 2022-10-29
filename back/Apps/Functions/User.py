@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:15
 LastEditors: LetMeFly
-LastEditTime: 2022-10-29 21:12:24
+LastEditTime: 2022-10-29 21:21:00
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -46,7 +46,7 @@ def cards(request):
             "error": error
         })
     username = result.first().username
-    result = models.Cards.objects.filter(username=username)
+    result = models.Cards.objects.filter(shareBy=username)
     shared = []
     error = []
     for thisCard in result:
