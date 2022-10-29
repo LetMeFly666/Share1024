@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:15
 LastEditors: LetMeFly
-LastEditTime: 2022-10-29 11:32:32
+LastEditTime: 2022-10-29 12:24:44
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -186,11 +186,11 @@ def register_sendCode(request):
             })
     code = "".join(str(random.randint(0, 9)) for i in range(6))
     resultEmail = Mail.sendEmail(toWho=email, title="Share1024 验证码", text="亲爱的用户，您正在注册“Share1024”，您的验证码为： " + code + " ，打死也不要告诉他人哦")
-    if len(resultDB):
-        resultDB.update(code=code, lastSentTime=datetime.datetime.now())
-    else:
-        models.Email.objects.create(email=email, code=code)
     if resultEmail:
+        if len(resultDB):
+            resultDB.update(code=code, lastSentTime=datetime.datetime.now())
+        else:
+            models.Email.objects.create(email=email, code=code)
         return JsonResponse({
             "code": code
         })
