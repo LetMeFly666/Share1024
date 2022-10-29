@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-29 10:17:00
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-29 12:23:27
+ * @LastEditTime: 2022-10-29 13:02:15
 -->
 <!DOCTYPE html>
 <html>
@@ -50,9 +50,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="code" class="col-sm-2 control-label" id="CodeInput">邮箱验证码</label>
+                <label for="code" class="col-sm-2 control-label">邮箱验证码</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="MailInput" placeholder="请先点击右边获取验证码按钮" disabled="disabled">
+                    <input type="text" class="form-control" id="CodeInput" placeholder="请先点击右边获取验证码按钮" disabled="disabled">
                 </div>
                 <div class="col-sm-2">
                     <input type="button" value="获取验证码" class="btn btn-primary" style="width: 100%;" onclick="getCode();"></input>
@@ -97,11 +97,24 @@
                     "email": mail
                 },
                 function(response, status) {
-                    console.log(response);
-                    console.log(status);
+                    if (status == "success") {
+                        if (response.response == "ok") {  // 发送成功！！
+                            alert(" 验证码已发送，请注意查收 ", hei=60, time=2500);
+                            $("#CodeInput").removeAttr("disabled");
+                            $("#CodeInput").attr("placeholder", "请输入邮箱中的验证码");
+                        }
+                        else {
+                            alert(response.message);
+                        }
+                    }
+                    else {
+                        alert(status);
+                    }
                 },
                 "json"
-            )
+            ).fail(function() {
+                alert(" 未知错误，发送失败！ ", hei=60, time=2500);
+            })
         }
 
         $("#LeetCodeIDInput").focus(
