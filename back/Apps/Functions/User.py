@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:15
 LastEditors: LetMeFly
-LastEditTime: 2022-10-28 21:35:23
+LastEditTime: 2022-10-29 11:32:32
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -175,7 +175,7 @@ def register_sendCode(request):
         })
     resultDB = models.Email.objects.filter(email=email)
     if len(resultDB):  # 表中已有此邮件对应的记录
-        lastSentTime = resultDB.begin().lastSentTime
+        lastSentTime = resultDB.first().lastSentTime
         """ datetime.timedelta: 秒、天 """
         timeDelta = datetime.datetime.now() - lastSentTime
         timeDiff = timeDelta.seconds + timeDelta.days * 24 * 3600
