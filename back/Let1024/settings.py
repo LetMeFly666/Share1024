@@ -132,4 +132,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Session
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 365 * 100  # 100年
 SESSION_SAVE_EVERY_REQUEST = True
-
+SESSION_COOKIE_DOMAIN = "share1024.letmefly.xyz" 
