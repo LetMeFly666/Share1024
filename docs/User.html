@@ -1,0 +1,74 @@
+<!--
+ * @Author: LetMeFly
+ * @Date: 2022-10-29 20:11:35
+ * @LastEditors: LetMeFly
+ * @LastEditTime: 2022-10-29 20:44:33
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>个人主页 - 力扣1024卡牌分享</title>
+    <meta charset="utf-8">
+    <script src="https://letmefly.xyz/Links/Common.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://letmefly.xyz/Links/bootstrap.min.css">
+    <script src="https://letmefly.xyz/Links/jquery.min.js"></script>
+    <script src="https://letmefly.xyz/Links/bootstrap.min.js"></script>
+    <script src="js/Common.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>个人主页</h1>
+            <h3>这里可以看到你的卡牌信息，也可以退出登录</h3>
+            <ul>
+                <li><b>所分享</b>是你所分享的卡牌</li>
+                <li><b>所领取</b>是你所领取的卡牌</li>
+                <li><b>被报失效</b>是你分享的卡牌中，被领取者反馈无效的卡牌</li>
+            </ul>
+
+            <h3>力扣昵称：<div id="User" style="display: inline;"><div id="User_Text" style="display: inline;"></div></div></h3>
+            <button class="btn btn-primary" id="quitOrGotoLoginButton">退出登录</button>
+        </div>
+    </div>
+
+    <div class="beforeFooter" id="beforeFooter"></div>
+    <footer class="navbar-fixed-bottom" id="footer">
+        <div class="container" style="background-color: #eeeeee">
+            <div class="row">
+                <div class="col-sm-4">项目地址: <a href="https://github.com/LetMeFly666/Share1024" target="blank">https://github.com/LetMeFly666/Share1024</a></div>
+                <div class="col-sm-4">在线地址：<a href="https://share1024.letmefly.xyz" target="blank">https://Share1024.LetMeFly.xyz </a></div>
+                <div class="col-sm-4">
+                    <span>使用 <a href="https://www.bootcss.com" target="blank">BootStrap</a>、<a href="https://jquery.com" target="blank">jQuery</a></span>
+                    <span>By <a href="https://letmefly.xyz" target="blank">LetMeFly</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script id="InitScript">
+        function initUserInfo() {
+            getUserInfo(null, null, function() {
+                $("#User").children("#User_Text").text("未登录");
+                $("#quitOrGotoLoginButton").text("点我登录");
+                $("#quitOrGotoLoginButton").click(function() {
+                    location.href = "login.html";
+                });
+            });
+        }
+
+        $(() => {  // Onload
+            adjust();
+            initUserInfo();
+        });
+
+        $(window).resize(() => adjust());
+    </script>
+
+    <script src="https://utteranc.es/client.js" repo="LetMeFly666/Share1024" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script>
+
+</body>
+
+</html>

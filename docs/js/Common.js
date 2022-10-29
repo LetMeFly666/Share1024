@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-29 09:59:22
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-29 19:53:45
+ * @LastEditTime: 2022-10-29 20:47:01
  */
 function adjust() {
     // adjustFooter
@@ -33,10 +33,15 @@ function getCookie(cname) {
     return "";
 }
 
-function getUserInfo() {
-    var info = {"login": false};
+var userinfo;
+
+function getUserInfo(successCallback, failCallback, notloginCallback) {
+    userinfo = {"login": false};
     if (!getCookie("warrant1024")) {
-        return info;
+        if (notloginCallback) {
+            notloginCallback();
+        }
+        return userinfo;
     }
     $.post(
         "https://back.share1024.letmefly.xyz/user/baseInfo/",
@@ -45,33 +50,46 @@ function getUserInfo() {
         },
         function(response, status) {
             if (status == "success") {
-                info = response;
+                userinfo = response;
+                if (successCallback) {
+                    successCallback();
+                }
             }
             else {
                 console.log(status);
+                if (failCallback) {
+                    failCallback();
+                }
             }
         },
     ).fail(
         function() {
             alert(" 获取用户信息失败 ", hei=60, time=2500);
+            if (failCallback) {
+                failCallback();
+            }
         }
     ).then(function() {
         if ($("#User")) {
-            if (info.username) {
-                $("#User").children("#User_Text").text(info.username);
+            if (userinfo.username) {
+                $("#User").children("#User_Text").text(userinfo.username);
                 $("#User").attr("href", "User.html");
             }
-            if (info.cardNotShare) {
+            else {
+                if (notloginCallback) {
+                    notloginCallback();
+                }
+            }
+            if (userinfo.cardNotShare) {
                 alert(" 有领取的卡牌未传递哦 ", height=60, time=2000);
                 setTimeout(() => {
                     const nowHref = location.href;
-                    if (nowHref.indexOf("/card1.html") == -1 || parseUrlParm().cardID != info.cardNotShare) {
+                    if (nowHref.indexOf("/card1.html") == -1 || parseUrlParm().cardID != userinfo.cardNotShare) {
                         // TODO: TEST
-                        location.href = "card1.html?cardID=" + info.cardNotShare;
+                        location.href = "card1.html?cardID=" + userinfo.cardNotShare;
                     }
                 }, 1000);
             }
         }
-        return info;
     });
 }

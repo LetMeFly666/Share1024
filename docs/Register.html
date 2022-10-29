@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-29 10:17:00
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-29 19:45:23
+ * @LastEditTime: 2022-10-29 20:31:23
 -->
 <!DOCTYPE html>
 <html>
@@ -217,6 +217,7 @@
     <script id="InitScript">
         $(() => {  // Onload
             adjust();
+            getUserinfo();  // 起到有未传递的卡牌直接跳到卡牌传递界面的作用
         });
 
         $(window).resize(() => adjust());
