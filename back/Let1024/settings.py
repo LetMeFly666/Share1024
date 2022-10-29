@@ -25,7 +25,7 @@ SECRET_KEY = Secrets.SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['back.share1024.letmefly.xyz']
 
 
 # Application definition
