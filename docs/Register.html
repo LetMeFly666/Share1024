@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-29 10:17:00
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-29 11:29:07
+ * @LastEditTime: 2022-10-29 12:10:24
 -->
 <!DOCTYPE html>
 <html>
@@ -92,48 +92,37 @@
                 return -1;
             }
             $.post(
-                "https://back.share1024.letmefly.xyz/user/register/sendCode/",
+                "https://back.share1024.letmefly.xyz/user/register/sendCode1/",
                 {
                     "email": mail
                 },
-                function(response) {
+                function(response, status) {
                     console.log(response);
-                    console.log(response.success);
-                }
+                    console.log(status);
+                },
+                "json"
             )
         }
 
         $("#LeetCodeIDInput").focus(
             function() {
-                console.log("focus");
                 $("#LeetCodeIDTipsDiv").css("display", "");
-            }
-        )
-        $("#LeetCodeIDInput").blur(
-            function() {
-                $("#LeetCodeIDTipsDiv").attr("style", "display: none");
+                $("#MailTipsDiv").attr("style", "display: none");
+                $("#CodeTipsDiv").attr("style", "display: none");
             }
         )
         $("#MailInput").focus(
             function() {
-                console.log("focus");
+                $("#LeetCodeIDTipsDiv").attr("style", "display: none");
                 $("#MailTipsDiv").css("display", "");
-            }
-        )
-        $("#MailInput").blur(
-            function() {
-                $("#MailTipsDiv").attr("style", "display: none");
+                $("#CodeTipsDiv").attr("style", "display: none");
             }
         )
         $("#CodeInput").focus(
             function() {
-                console.log("focus");
+                $("#LeetCodeIDTipsDiv").attr("style", "display: none");
+                $("#MailTipsDiv").attr("style", "display: none");
                 $("#CodeTipsDiv").css("display", "");
-            }
-        )
-        $("#CodeInput").blur(
-            function() {
-                $("#CodeTipsDiv").attr("style", "display: none");
             }
         )
     </script>
