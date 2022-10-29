@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:15
 LastEditors: LetMeFly
-LastEditTime: 2022-10-29 13:03:56
+LastEditTime: 2022-10-29 13:04:57
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -185,7 +185,7 @@ def register_sendCode(request):
                 "message": "Request too fast"
             })
     code = "".join(str(random.randint(0, 9)) for i in range(6))
-    resultEmail = Mail.sendEmail(toWho=email, title="Share1024 验证码", text="亲爱的用户，您正在注册“Share1024”，您的验证码为：" + code + "，打死也不要告诉他人哦")
+    resultEmail = Mail.sendEmail(toWho=email, title="Share1024 验证码", text="亲爱的用户，您正在注册“Share1024”，您的验证码为：" + code + "，5min内有效，打死也不要告诉他人哦")
     if resultEmail:
         if len(resultDB):
             resultDB.update(code=code, lastSentTime=datetime.datetime.now())
