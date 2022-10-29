@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:15
 LastEditors: LetMeFly
-LastEditTime: 2022-10-29 16:38:38
+LastEditTime: 2022-10-29 16:40:57
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -162,10 +162,7 @@ def register(request):
     models.User.objects.create(username=username, password=password, email=email)
     request.session["username"] = username
     print(request.session)
-    for i in request.session:
-        print(dir(request.session))
-        print(i)
-        print(request.session[i])
+    print(dir(request.session))
     return JsonResponse({
         "response": "ok"
     })
