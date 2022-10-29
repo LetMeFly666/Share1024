@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 14:22:43
 LastEditors: LetMeFly
-LastEditTime: 2022-10-29 12:26:24
+LastEditTime: 2022-10-29 12:33:11
 '''
 import smtplib
 from email.mime.text import MIMEText
@@ -14,6 +14,8 @@ from Secrets import EMAIL_SENDER_NAME, EMAIL_SENDER_PASSWORD
 def sendEmail(toWho="Tisfy@qq.com", title="Share1024 验证码", text="力扣1024卡牌分享网 欢迎您"):
     my_sender = EMAIL_SENDER_NAME  # 发件人邮箱账号
     my_pass = EMAIL_SENDER_PASSWORD  # 发件人邮箱密码
+    print(my_sender)
+    print(my_pass)
     my_user = toWho  # 收件人邮箱账号，我这边发送给自己
 
     def mail():
