@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:15
 LastEditors: LetMeFly
-LastEditTime: 2022-10-29 21:36:39
+LastEditTime: 2022-10-29 21:57:42
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -37,6 +37,9 @@ def cards(request):
     #     "got": [120, 521],
     #     "error": [542],
     # })
+    shared = []
+    error = []
+    got = []
     warrant1024 = request.GET.get("warrant1024", "")
     if not warrant1024:
         return JsonResponse({
@@ -53,14 +56,11 @@ def cards(request):
         })
     username = result.first().username
     result = models.Cards.objects.filter(shareBy=username)
-    shared = []
-    error = []
     for thisCard in result:
         shared.append(thisCard.cardID)
         if thisCard.get1 == 2 or thisCard.get2 == 2 or thisCard.get3 == 2:
             error.append(thisCard.cardID)
     result = models.Got.objects.filter(gotBy=username)
-    got = []
     for thisCard in result:
         got.append(thisCard.cardID)
     return JsonResponse({

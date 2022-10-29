@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-29 20:11:35
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-29 21:38:41
+ * @LastEditTime: 2022-10-29 21:59:28
 -->
 <!DOCTYPE html>
 <html>
@@ -83,6 +83,7 @@
                 function(response, status) {
                     if (status == "success" && response.response == "ok") {
                         alert(" 退出登录成功 ", 60, 2000);
+                        document.cookie = "warrant1024=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
                         setTimeout(() => {
                             location.href = location.href;
                         }, 1500);
