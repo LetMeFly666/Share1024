@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 19:11:40
+LastEditTime: 2022-10-30 19:14:20
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -198,8 +198,6 @@ def cannotUse(request):
             "message": "Sorry, you shouldn't report this card"
         })
     cardID = request.POST.get("cardID", "")
-    print(lastGot, type(lastGot))
-    print(cardID, type(cardID))
     if str(lastGot) != str(cardID):
         return JsonResponse({
             "response": "",
@@ -213,7 +211,7 @@ def cannotUse(request):
             "message": "The cardID is unavailable"
         })
     user.update(lastGot=0)
-    shareBy = models.User.objects.filter(username=card.shareBy)
+    shareBy = models.User.objects.filter(username=card.first().shareBy)
     shareBy.update(cannotUseTimes=shareBy.first().cannotUseTime + 1)
     got = models.Got.objects.filter(gotCardID=cardID, gotBy=username)
     got.update(state=2)
