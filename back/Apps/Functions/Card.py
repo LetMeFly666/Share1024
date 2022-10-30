@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 15:25:21
+LastEditTime: 2022-10-30 15:50:17
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -53,7 +53,7 @@ def oneCard(request):
     return JsonResponse({
         "cardID": cardID,
         "cardType": result.first().cardIs,
-        "shareBy": result.first().sharBy,
+        "shareBy": result.first().shareBy,
         "get1": result.first().get1,
         "get2": result.first().get2,
         "get3": result.first().get3,
