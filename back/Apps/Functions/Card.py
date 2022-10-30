@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 14:16:55
+LastEditTime: 2022-10-30 15:10:23
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -26,7 +26,7 @@ def remain_oneType(request):
     cardType = request.GET.get("cardType", "")
     if cardType not in cardList:
         return JsonResponse([])
-    result = models.Cards.objects.filter(cardIs=cardType).filter(gotTimes_lt=3)
+    result = models.Cards.objects.filter(cardIs=cardType).filter(gotTimes__lt=3)
     ans = []
     for thisCard in result:
         ans.append(thisCard.cardID)
