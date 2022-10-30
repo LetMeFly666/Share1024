@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 20:33:49
+LastEditTime: 2022-10-30 20:37:03
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -187,7 +187,7 @@ def share(request):
     #     f"get{th}": 1
     # })
     return JsonResponse({
-        "newCardID": newCard.first().cardID
+        "newCardID": newCard.cardID
     })
     
 
