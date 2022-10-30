@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 19:46:07
+LastEditTime: 2022-10-30 19:52:23
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -136,10 +136,10 @@ def share(request):
     user = models.User.objects.filter(username=username)
     lastGot = user.first().lastGot
     parentID = request.POST.get("parent", "")
-    if lastGot and lastGot != parentID:
+    if lastGot and str(lastGot) != str(parentID):
         return JsonResponse({
             "newCardID": "",
-            "message": "Please report what you got",
+            "message": "Please share what you got, you got a card with id = " + str(lastGot),
             "shouldGo": "card1.html?cardID=" + str(lastGot)
         })
     leetcodeURL_original = request.POST.get("leetcodeURL", "")
