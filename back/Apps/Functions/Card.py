@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 18:05:15
+LastEditTime: 2022-10-30 18:10:50
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -102,10 +102,16 @@ def oneCard_getURL(request):
         })
     gotTimes += 1
     user.update(lastGot=cardID)
-    card.update({  # removed kwargs=
-        "gotTimes": gotTimes,
-        f"get{gotTimes}": 1
-    })
+    if gotTimes == 1:
+        card.update(gotTimes=gotTimes, get1=1)
+    elif gotTimes == 2:
+        card.update(gotTimes=gotTimes, get2=1)
+    else:
+        card.update(gotTimes=gotTimes, get3=1)
+    # card.update({  # removed kwargs=
+    #     "gotTimes": gotTimes,
+    #     f"get{gotTimes}": 1
+    # })
     models.Got.objects.create(gotCardID=cardID, gotBy=username, shareCardID=0, state=0, th=gotTimes)
     return JsonResponse({
         "leetcodeURL": card.first().leetcodeURL
@@ -156,9 +162,15 @@ def share(request):
     user.update(lastGot=0, shareNum=user.first().shareNum + 1)
     newCard = models.Cards.objects.create(shareBy=username, cardIs=cardType, leetcodeURL=leetcodeURL)
     got.update(shareCardID=newCard.first().cardID)
-    models.Cards.objects.filter(cardID=parentID).update({  # removed kwargs=
-        f"get{th}": 1
-    })
+    if th == 1:
+        models.Cards.objects.filter(cardID=parentID).update(get1=1)
+    elif th == 2:
+        models.Cards.objects.filter(cardID=parentID).update(get2=1)
+    else:
+        models.Cards.objects.filter(cardID=parentID).update(get3=1)
+    # models.Cards.objects.filter(cardID=parentID).update({  # removed kwargs=
+    #     f"get{th}": 1
+    # })
     return JsonResponse({
         "newCardID": newCard.first().cardID
     })
@@ -189,9 +201,15 @@ def cannotUse(request):
     shareBy.update(cannotUseTimes=shareBy.first().cannotUseTime + 1)
     got = models.Got.objects.filter(gotCardID=cardID, gotBy=username)
     got.update(state=2)
-    card.update({  # removed kwargs=
-        f"get{got.first().th}": 2
-    })
+    if got.first().th == 1:
+        card.update(get1=2)
+    elif got.first().th == 2:
+        card.update(get2=2)
+    else:
+        card.update(get3=2)
+    # card.update({  # removed kwargs=
+    #     f"get{got.first().th}": 2
+    # })
     return JsonResponse({
         "response": "ok"
     })
