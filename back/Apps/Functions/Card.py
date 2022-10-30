@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 20:00:49
+LastEditTime: 2022-10-30 20:02:53
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -167,7 +167,6 @@ def share(request):
         })
     leetcodeURL = f"https://leetcode.cn/2022-1024?id={cardID}&userSlug={userSlug}"
     cardType = request.POST.get("type", "")
-    print(cardType, type(cardType))
     if str(cardType) not in cardList:
         return JsonResponse({
             "newCardID": "",
