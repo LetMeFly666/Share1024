@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 19:09:37
+LastEditTime: 2022-10-30 19:11:40
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -198,7 +198,9 @@ def cannotUse(request):
             "message": "Sorry, you shouldn't report this card"
         })
     cardID = request.POST.get("cardID", "")
-    if lastGot != cardID:
+    print(lastGot, type(lastGot))
+    print(cardID, type(cardID))
+    if str(lastGot) != str(cardID):
         return JsonResponse({
             "response": "",
             "message": "Please report what you got",
