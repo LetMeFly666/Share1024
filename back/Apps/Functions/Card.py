@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 15:10:23
+LastEditTime: 2022-10-30 15:13:41
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -25,12 +25,16 @@ def remain_all(request):
 def remain_oneType(request):
     cardType = request.GET.get("cardType", "")
     if cardType not in cardList:
-        return JsonResponse([])
+        return JsonResponse({
+            "cards": []
+        })
     result = models.Cards.objects.filter(cardIs=cardType).filter(gotTimes__lt=3)
     ans = []
     for thisCard in result:
         ans.append(thisCard.cardID)
-    return JsonResponse(ans)
+    return JsonResponse({
+        "cards": ans
+    })
 
 
 def oneCard(request):

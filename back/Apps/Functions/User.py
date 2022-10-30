@@ -2,10 +2,9 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:15
 LastEditors: LetMeFly
-LastEditTime: 2022-10-29 21:57:42
+LastEditTime: 2022-10-30 15:12:24
 '''
 from django.http import JsonResponse
-from django.shortcuts import redirect
 from Apps import models
 from Apps.Functions import Mail
 import datetime
