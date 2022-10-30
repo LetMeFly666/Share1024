@@ -1,0 +1,257 @@
+<!--
+ * @Author: LetMeFly
+ * @Date: 2022-10-30 15:26:14
+ * @LastEditors: LetMeFly
+ * @LastEditTime: 2022-10-30 17:07:47
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>卡牌领取 - 一张卡牌 - 力扣1024卡牌分享</title>
+    <meta charset="utf-8">
+    <script src="https://letmefly.xyz/Links/Common.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://letmefly.xyz/Links/bootstrap.min.css">
+    <script src="https://letmefly.xyz/Links/jquery.min.js"></script>
+    <script src="https://letmefly.xyz/Links/bootstrap.min.js"></script>
+    <script src="js/Common.js"></script>
+</head>
+
+<body>
+    
+    <a id="User" href="login.html" style="position: absolute; top: 0; border: 0; right: 30px; font-family: 楷体; border: 2px solid rgb(51, 122, 192);"><h2 id="User_Text">点我登录</h2></a>
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1 id="titleH1">1024卡牌领取</h1>
+            <h3>力扣的活动一天最多领取三张卡牌，请确保自己还能领取卡牌，不要出现“今日领取已达上限”的情况</h3>
+            <h3>在此网站领取的卡牌，必须再分享回来</h3>
+            <h3>为了便于统计，分享回来的卡牌链接请<b>勿直接</b>分享给他人，请使用此页链接分享给他人</h3>
+        </div>
+        <div style="text-align: center; width: 100%;">
+            <h2 id="shareByH2">ShareBy: </h2>
+        </div>
+        <div style="text-align: center; width: 100%;">
+            <h2>领取状态</h2>
+        </div>
+    
+        <div class="card3" style="height: 200px;">
+            <div class="card bg-info text-white col-sm-4" style="height: 200px; text-align: center;" id="cardGet1">
+                <h3 class="card-body" style="margin-top: 80px;" id="cardGet1h3">领取1</h3>
+            </div>
+            <div class="card bg-info text-white col-sm-4" style="height: 200px; text-align: center;" id="cardGet2">
+                <h3 class="card-body" style="margin-top: 80px;" id="cardGet2h3">领取2</h3>
+            </div>
+            <div class="card bg-info text-white col-sm-4" style="height: 200px; text-align: center;" id="cardGet3">
+                <h3 class="card-body" style="margin-top: 80px;" id="cardGet3h3">领取3</h3>
+            </div>
+        </div>
+
+        <div id="get" style="display: none;">
+            <h2>领取前，请知情并同意以下须知</h2>
+            <ol class="list-group">
+                <li class="list-group-item"><h3>请确保自己的账号今日仍可领取卡牌</h3></li>
+                <li class="list-group-item"><h3>领取后请及时回来分享 并 点击下方“传递卡牌”按钮</h3></li>
+                <li class="list-group-item"><h3>领取成功后，你所得到的卡牌请<font color="red">勿直接</font>分享给他人</h3></li>
+                <li class="list-group-item"><h3><b>欢迎</b>将卡牌分享给他人，但是请点击下方“分享给他人”按钮进行分享</h3></li>
+            </ol>
+            <div style="text-align: center;">
+                <button class="btn btn-danger" onclick="realGet();">
+                    <h3>同意并领取</h3>
+                </button>
+            </div>
+            <a id="toShowLink"></a>
+        </div>
+
+        <div style="text-align: center; margin-top: 10px;">
+            <button class="btn btn-info" onclick="share2others();"><h3>将此卡牌分享给他人</h3></button>
+            <button class="btn btn-primary" onclick="gotoShare();"><h3>传递卡牌</h3></button>
+        </div>
+    </div>
+
+    <style>
+        .card:hover {
+            box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, .3);
+            z-index: 1;
+            cursor:pointer;
+        }
+    </style>
+
+    <script src="https://utteranc.es/client.js" repo="LetMeFly666/Share1024" issue-term="pathname" theme="github-light" crossorigin="anonymous" async></script>
+
+    <div class="beforeFooter" id="beforeFooter" style="height: 250px;"></div>
+    <footer class="navbar-fixed-bottom" id="footer">
+        <div class="container" style="background-color: #eeeeee">
+            <div class="row">
+                <div class="col-sm-4">项目地址: <a href="https://github.com/LetMeFly666/Share1024" target="blank">https://github.com/LetMeFly666/Share1024</a></div>
+                <div class="col-sm-4">在线地址：<a href="https://share1024.letmefly.xyz" target="blank">https://Share1024.LetMeFly.xyz </a></div>
+                <div class="col-sm-4">
+                    <span>使用 <a href="https://www.bootcss.com" target="blank">BootStrap</a>、<a href="https://jquery.com" target="blank">jQuery</a></span>
+                    <span>By <a href="https://letmefly.xyz" target="blank">LetMeFly</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function realGet() {
+            function handle(leetcodeURL) {
+                $("#toShowLink").text(leetcodeURL);
+                $("#toShowLink").href(leetcodeURL);
+            }
+            $.post(
+                "https://back.share1024.letmefly.xyz/card/oneCard/getURL/",
+                function(response, status) {
+                    if (status == "success") {
+                        if (response.leetcodeURL) {
+                            handle(response.leetcodeURL);
+                        }
+                        else {
+                            alert(response.message, 60, 2000);
+                            if (response.shouldGo) {
+                                setTimeout(() => {
+                                    location.href = response.shouldGo;
+                                }, 1500);
+                            }
+                        }
+                    }
+                    else {
+                        alert(status);
+                    }
+                },
+                "json"
+            ).fail(
+                function() {
+                    alert(" 未知错误 ", 60, 2000);
+                }
+            );
+        }
+
+        function share2others() {
+            copy(location.href);
+        }
+
+        function gotoShare() {
+            location.href = "share.html?cardID=" + cardID;
+        }
+
+        function copy(toCopy) {
+            var input = document.createElement("input");
+            document.body.appendChild(input);
+            input.value = toCopy
+            input.select();
+            try {
+                //进行复制到剪切板
+                if (document.execCommand("Copy", true, null)) {
+                    //如果复制成功
+                    alert("链接已复制，快去分享给你的好友吧~", 60, 2000);
+                    //隐藏input框
+                    input.hidden = "hidden";
+                } else {
+                    //如果复制失败
+                    alert("复制失败！");
+                }
+            } catch (err) {
+                //如果报错
+                alert("未知错误！")
+            }
+        }
+    </script>
+
+    <script id="InitScript">
+        var cardID;
+        var cardInfo;
+
+        function getCardInfoAndSet() {
+            if (!cardID) {
+                alert(" 无此卡牌 ", 60, 2000);
+                return;
+            }
+            function set() {
+                if (!cardInfo.cardID) {
+                    alert(cardInfo.message, 60, 2000);
+                    return;
+                }
+                const cardType = cardInfo.cardType;
+                $("#titleH1").text($("#titleH1").text() + "：");
+                $("#titleH1").append($("<font color=\"red\">" + cardType + "</font>"));
+                const shareBy = cardInfo.shareBy;
+                $("#shareByH2").append($(`<a href="https://leetcode.cn/u/${shareBy}" target="_blank">${shareBy}</a>`));
+
+                for (var i = 1; i <= 3; i++) {
+                    const cardState = cardInfo[`get${i}`];
+                    if (cardState == 0) {  // 未领取
+                        if (userinfo.cardNotShare) {
+                            $(`#cardGet${i}`).click(() => {
+                                alert(` 请先传递卡牌[${userinfo.cardNotShare}]哦 `, 60, 2000);
+                                setTimeout(() => {
+                                    location.href = `share.html?cardID=${userinfo.cardNotShare}`;
+                                }, 2000);
+                            });
+                        }
+                        else if (userinfo.login == false) {
+                            $(`#cardGet${i}`).click(() => {
+                                alert(` 请登录再领取哦 `, 60, 1000);
+                                setTimeout(() => {
+                                    location.href = "login.html";
+                                }, 1000);
+                            });
+                        }
+                        else {
+                            $(`#cardGet${i}`).click(() => {
+                                alert(` 请仔细阅读领取协议 `, 60, 1000);
+                                $("#get").css("display", "");
+                            });
+                        }
+                        $(`#cardGet${i}h3`).append("<h4>未领取</h4>");
+                    }
+                    else if (cardState == 1) {  // 已领取
+                        $(`#cardGet${i}h3`).append("<h4>已领取</h4>");
+                        $(`#cardGet${i}`).click(() => {
+                            alert(` 此卡牌已被领取 `, 60, 1500);
+                        });
+                    }
+                    else {  // 报无效
+                        $(`#cardGet${i}h3`).append("<h4>被报失效</h4>");
+                        $(`#cardGet${i}`).click(() => {
+                            alert(` 此卡牌已被领取 `, 60, 1500);
+                        });
+                    }
+                }
+            }
+            $.get(
+                "https://back.share1024.letmefly.xyz/card/oneCard/?cardID=" + cardID,
+                function(response, status) {
+                    if (status == "success") {
+                        cardInfo = response;
+                        set();
+                    }
+                    else {
+                        alert(status);
+                    }
+                },
+                "json"
+            ).fail(
+                function() {
+                    alert(" 未知错误 ", 60, 2000);
+                }
+            );
+        }
+
+        function getCardID() {
+            cardID = parseUrlParm().cardID;
+        }
+        
+        $(() => {  // Onload
+            adjust();
+            getUserInfo();
+            getCardID();
+            getCardInfoAndSet();
+        });
+
+        $(window).resize(() => adjust());
+    </script>
+</body>
+
+</html>

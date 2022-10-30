@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 15:50:17
+LastEditTime: 2022-10-30 17:08:43
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -62,12 +62,26 @@ def oneCard(request):
 
 
 def oneCard_getURL(request):
-    username = request.session.get("username", "")
-    if not username:
-        return redirect("/login.html")
+    warrant1024 = request.GET.get("warrant1024", "")
+    if not warrant1024:
+        return JsonResponse({
+            "leetcodeURL": "",
+            "message": "Please login first",
+        })
+    result = models.Cookie.objects.filter(warrant1024=warrant1024)
+    if not len(result):
+        return JsonResponse({
+            "leetcodeURL": "",
+            "message": "Please login first",
+        })
+    username = result.first().username
     user = models.User.objects.filter(username=username)
     if user.first().lastGot:
-        return redirect("/card1.html?cardID=" + user.first().lastGot)
+        return JsonResponse({
+            "leetcodeURL": "",
+            "message": "Please share back what you got",
+            "shouldGo": "/card1.html?cardID=" + user.first().lastGot
+        })
     cardID = request.POST.get("cardID", "")
     if not cardID:
         return JsonResponse({

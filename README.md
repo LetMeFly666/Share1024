@@ -373,6 +373,7 @@ data:
 ```json
 {
     "cardID": 1221,
+    "warrant1024": "theWarrant484s48e4fs84e"
 }
 ```
 
@@ -386,9 +387,9 @@ data:
 }
 ```
 
-若未登录：返回 到登录界面的```redirect```
+若未登录：返回```{"leetcodeURL": "", "message": "Please login first"}```
 
-若登录且有未传递的卡牌：返回 到卡牌传递界面的```redirect```
+若登录且有未传递的卡牌：返回```{"leetcodeURL": "", "message": "Please share back what you got"}```
 
 若卡牌为空或不存在：返回```{"leetcodeURL": "", "message": "Card doesn't exist"}```
 
