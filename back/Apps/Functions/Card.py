@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 17:59:34
+LastEditTime: 2022-10-30 18:05:15
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -102,7 +102,7 @@ def oneCard_getURL(request):
         })
     gotTimes += 1
     user.update(lastGot=cardID)
-    card.update(kwargs={
+    card.update({  # removed kwargs=
         "gotTimes": gotTimes,
         f"get{gotTimes}": 1
     })
@@ -156,7 +156,7 @@ def share(request):
     user.update(lastGot=0, shareNum=user.first().shareNum + 1)
     newCard = models.Cards.objects.create(shareBy=username, cardIs=cardType, leetcodeURL=leetcodeURL)
     got.update(shareCardID=newCard.first().cardID)
-    models.Cards.objects.filter(cardID=parentID).update(kwargs={
+    models.Cards.objects.filter(cardID=parentID).update({  # removed kwargs=
         f"get{th}": 1
     })
     return JsonResponse({
@@ -189,7 +189,7 @@ def cannotUse(request):
     shareBy.update(cannotUseTimes=shareBy.first().cannotUseTime + 1)
     got = models.Got.objects.filter(gotCardID=cardID, gotBy=username)
     got.update(state=2)
-    card.update(kwargs={
+    card.update({  # removed kwargs=
         f"get{got.first().th}": 2
     })
     return JsonResponse({
