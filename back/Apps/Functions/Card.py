@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-28 21:52:35
+LastEditTime: 2022-10-30 14:16:55
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -15,7 +15,7 @@ cardList = [
 
 
 def remain_all(request):
-    result = models.Cards.objects.filter(gotTimes_lt=3)
+    result = models.Cards.objects.filter(gotTimes__lt=3)
     ans = {thisCard: 0 for thisCard in cardList}
     for thisCard in result:
         ans[thisCard.cardIs] += 1

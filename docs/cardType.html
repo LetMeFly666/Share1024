@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-30 10:19:43
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-30 10:42:10
+ * @LastEditTime: 2022-10-30 14:15:39
 -->
 <!DOCTYPE html>
 <html>
@@ -61,6 +61,28 @@
             "0", "1", "2", "3", "4", "5", "6", "007", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "955", "965", "996", "1024", "1075", "1037", "<<", ">>", "&", "|", "^", "+", "-", "*", "//", "%", "**"
         ];
 
+        function getRemainAndSet() {
+            function set(cardRemain) {
+                
+            }
+            $.get(
+                "https://back.share1024.letmefly.xyz/card/remain/all/",
+                function(response, status) {
+                    if (status == "success") {
+                        console.log(response);
+                        set(response);
+                    }
+                    else {
+                        alert(status);
+                    }
+                },
+                "json"
+            ).fail(
+                function() {
+                    alert(" 未知错误 ", 60, 2000);
+                }
+            );
+        }
     </script>
 
     <script id="InitScript">
@@ -68,10 +90,11 @@
             const cardsDiv = $("#cardsDiv");
             for (var i = 0; i < cardList.length; i++) {
                 const theNewCard = $('<div class="card bg-info text-white col-sm-2" style="height: 100px; text-align: center;" id="cardGet"><h3 class="card-body" style="margin-top: 40px;">1</h3></div>');
-                theNewCard.children("h3").text(cardList[i]);
+                const cardType = cardList[i];
+                theNewCard.children("h3").text(cardType);
                 theNewCard.click(() => {
-                    console.log(cardList[i]);
-                    location.href = "card1type.html?type=" + cardList[i];
+                    console.log(cardType);
+                    location.href = "card1type.html?type=" + cardType;
                 });
                 cardsDiv.append(theNewCard);
             }
@@ -81,6 +104,7 @@
             adjust();
             getUserInfo();
             initCards();
+            getRemainAndSet();
         });
 
         $(window).resize(() => adjust());
