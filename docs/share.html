@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-30 18:36:25
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-30 18:41:58
+ * @LastEditTime: 2022-10-30 19:44:42
 -->
 <!DOCTYPE html>
 <html>
@@ -27,47 +27,31 @@
             <h1 id="titleH1">卡牌分享：赠人玫瑰，手有余香</h1>
             <h2>感谢前来分享！</h2>
             <h3>但是请保证链接有效并且此卡牌未被领取过哦</h3>
-            <h3>在这里分享过后，就不要再</h3>
+            <h3>在这里分享过后，就不要再<b>直接</b>分享给其他人了</h3>
+            <h3>可以将此页链接分享给他人，以便于统计和二次传递</h3>
         </div>
-        <div style="text-align: center; width: 100%;">
-            <h2 id="shareByH2">ShareBy: </h2>
-        </div>
-        <div style="text-align: center; width: 100%;">
-            <h2>领取状态</h2>
-        </div>
-    
-        <div class="card3" style="height: 200px;">
-            <div class="card bg-info text-white col-sm-4" style="height: 200px; text-align: center;" id="cardGet1">
-                <h3 class="card-body" style="margin-top: 80px;" id="cardGet1h3">领取1</h3>
+        
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">卡牌种类</label>
+                <div class="col-sm-10">
+                    <select class="form-select" id="cardTypeSelect" name="sellist1" style="width: 100%;">
+                        <!-- <option>1</option> -->
+                    </select>
+                </div>
             </div>
-            <div class="card bg-info text-white col-sm-4" style="height: 200px; text-align: center;" id="cardGet2">
-                <h3 class="card-body" style="margin-top: 80px;" id="cardGet2h3">领取2</h3>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">分享链接</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="linkInput" placeholder="请输入卡牌的分享链接">
+                </div>
             </div>
-            <div class="card bg-info text-white col-sm-4" style="height: 200px; text-align: center;" id="cardGet3">
-                <h3 class="card-body" style="margin-top: 80px;" id="cardGet3h3">领取3</h3>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="button" value="分享" class="btn btn-primary" onclick="share()" style="width: 100%;"></input>
+                </div>
             </div>
-        </div>
-
-        <div id="get" style="display: none;">
-            <h2>领取前，请知情并同意以下须知</h2>
-            <ol class="list-group">
-                <li class="list-group-item"><h3>请确保自己的账号今日仍可领取卡牌</h3></li>
-                <li class="list-group-item"><h3>领取后请及时回来分享 并 点击下方“传递卡牌”按钮</h3></li>
-                <li class="list-group-item"><h3>领取成功后，你所得到的卡牌请<font color="red">勿直接</font>分享给他人</h3></li>
-                <li class="list-group-item"><h3><b>欢迎</b>将卡牌分享给他人，但是请点击下方“分享给他人”按钮进行分享</h3></li>
-            </ol>
-            <div style="text-align: center;">
-                <button class="btn btn-danger" onclick="realGet();">
-                    <h3>同意并领取</h3>
-                </button>
-            </div>
-            <a id="toShowLink"></a>
-        </div>
-
-        <div style="text-align: center; margin-top: 10px;">
-            <button class="btn btn-info" onclick="share2others();"><h3>将此卡牌分享给他人</h3></button>
-            <button class="btn btn-primary" onclick="gotoShare();"><h3>传递卡牌</h3></button>
-        </div>
+        </form>
     </div>
 
     <style>
@@ -95,18 +79,26 @@
     </footer>
 
     <script>
-        function realGet() {
-            function handle(leetcodeURL) {
-                $("#toShowLink").text(leetcodeURL);
-                $("#toShowLink").attr("href", leetcodeURL);
-                // $("#toShowLink").click();
-                window.open(leetcodeURL, "_blank");
+        function share() {
+            const warrant1024 = getCookie("warrant1024");
+            const parent = cardID ? cardID : "";
+            const cardType = $("#cardTypeSelect").val();
+            const leetcodeURL = $("#linkInput").val();
+            if (!warrant1024) {
+                alert(" 请先登录哦 ", 60, 2000);
+                return -1;
+            }
+            if (!leetcodeURL) {
+                alert(" 请输入卡牌分享链接 ", 60, 2000);
+                return -1;
             }
             $.post(
-                "https://back.share1024.letmefly.xyz/card/oneCard/getURL/",
+                "https://back.share1024.letmefly.xyz/card/share/",
                 {
-                    "warrant1024": getCookie("warrant1024"),
-                    "cardID": cardID
+                    "warrant1024": warrant1024,
+                    "parent": parent,
+                    "leetcodeURL": leetcodeURL,
+                    "type": cardType
                 },
                 function(response, status) {
                     if (status == "success") {
@@ -133,123 +125,15 @@
                 }
             );
         }
-
-        function share2others() {
-            copy(location.href);
-        }
-
-        function gotoShare() {
-            location.href = "share.html?cardID=" + cardID;
-        }
-
-        function copy(toCopy) {
-            var input = document.createElement("input");
-            document.body.appendChild(input);
-            input.value = toCopy
-            input.select();
-            try {
-                //进行复制到剪切板
-                if (document.execCommand("Copy", true, null)) {
-                    //如果复制成功
-                    alert("链接已复制，快去分享给你的好友吧~", 60, 2000);
-                    //隐藏input框
-                    input.hidden = "hidden";
-                } else {
-                    //如果复制失败
-                    alert("复制失败！");
-                }
-            } catch (err) {
-                //如果报错
-                alert("未知错误！")
-            }
-        }
     </script>
 
     <script id="InitScript">
         var cardID;
-        var cardInfo;
 
-        function getCardInfoAndSet() {
-            if (!cardID) {
-                alert(" 无此卡牌 ", 60, 2000);
-                return;
+        function initSelect() {
+            for (var i = 0; i < cardList.length; i++) {
+                $("#cardTypeSelect").append($(`<option>${cardList[i]}</option>`))
             }
-            function set() {
-                if (!cardInfo.cardID) {
-                    alert(cardInfo.message, 60, 2000);
-                    return;
-                }
-                const cardType = cardInfo.cardType;
-                $("#titleH1").text($("#titleH1").text() + "：");
-                $("#titleH1").append($("<font color=\"red\">" + cardType + "</font>"));
-                const shareBy = cardInfo.shareBy;
-                $("#shareByH2").append($(`<a href="https://leetcode.cn/u/${shareBy}" target="_blank">${shareBy}</a>`));
-
-                for (var i = 1; i <= 3; i++) {
-                    const cardState = cardInfo[`get${i}`];
-                    if (cardState == 0) {  // 未领取
-                        if (userinfo.cardNotShare) {
-                            $(`#cardGet${i}`).click(() => {
-                                alert(` 请先传递卡牌[${userinfo.cardNotShare}]哦 `, 60, 2000);
-                                setTimeout(() => {
-                                    location.href = `share.html?cardID=${userinfo.cardNotShare}`;
-                                }, 2000);
-                            });
-                        }
-                        else if (userinfo.login == false) {
-                            $(`#cardGet${i}`).click(() => {
-                                alert(` 请登录再领取哦 `, 60, 1000);
-                                setTimeout(() => {
-                                    location.href = "login.html";
-                                }, 1000);
-                            });
-                        }
-                        else {
-                            if (userinfo.username == cardInfo.shareBy) {
-                                $(`#cardGet${i}`).click(() => {
-                                    alert(" 这好像是你自己分享的卡牌呢 ", 60, 2000);
-                                });
-                            }
-                            else {
-                                $(`#cardGet${i}`).click(() => {
-                                    alert(` 请仔细阅读领取协议 `, 60, 1000);
-                                    $("#get").css("display", "");
-                                });
-                            }
-                        }
-                        $(`#cardGet${i}h3`).append("<h4>未领取</h4>");
-                    }
-                    else if (cardState == 1) {  // 已领取
-                        $(`#cardGet${i}h3`).append("<h4>已领取</h4>");
-                        $(`#cardGet${i}`).click(() => {
-                            alert(` 此卡牌已被领取 `, 60, 1500);
-                        });
-                    }
-                    else {  // 报无效
-                        $(`#cardGet${i}h3`).append("<h4>被报失效</h4>");
-                        $(`#cardGet${i}`).click(() => {
-                            alert(` 此卡牌已被领取 `, 60, 1500);
-                        });
-                    }
-                }
-            }
-            $.get(
-                "https://back.share1024.letmefly.xyz/card/oneCard/?cardID=" + cardID,
-                function(response, status) {
-                    if (status == "success") {
-                        cardInfo = response;
-                        set();
-                    }
-                    else {
-                        alert(status);
-                    }
-                },
-                "json"
-            ).fail(
-                function() {
-                    alert(" 未知错误 ", 60, 2000);
-                }
-            );
         }
 
         function getCardID() {
@@ -260,7 +144,7 @@
             adjust();
             getUserInfo();
             getCardID();
-            getCardInfoAndSet();
+            initSelect();
         });
 
         $(window).resize(() => adjust());

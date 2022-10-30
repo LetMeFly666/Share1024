@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-30 15:26:14
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-30 19:01:07
+ * @LastEditTime: 2022-10-30 19:30:11
 -->
 <!DOCTYPE html>
 <html>
@@ -107,8 +107,11 @@
                     },
                     function(response, status) {
                         if (status == "success") {
-                            if (response.leetcodeURL) {
+                            if (response.response) {
                                 alert(" “此卡无效”已上报，去看看其他卡牌吧 ", 60, 2000);
+                                setTimeout(() => {
+                                    location.href = "cardType.html";
+                                }, 2000);
                             }
                             else {
                                 alert(response.message, 60, 2000);
@@ -170,7 +173,7 @@
         }
 
         function share2others() {
-            copy(location.href);
+            copy("快来领取我分享的卡牌吧：" + location.href);
         }
 
         function gotoShare() {

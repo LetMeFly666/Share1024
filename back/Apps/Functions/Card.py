@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 19:17:42
+LastEditTime: 2022-10-30 19:46:07
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -120,14 +120,28 @@ def oneCard_getURL(request):
 
 
 def share(request):
-    username = request.session.get("username", "")
-    if not username:
-        return redirect("/login.html")
+    warrant1024 = request.POST.get("warrant1024", "")
+    if not warrant1024:
+        return JsonResponse({
+            "newCardID": "",
+            "message": "Please login first",
+        })
+    result = models.Cookie.objects.filter(warrant1024=warrant1024)
+    if not len(result):
+        return JsonResponse({
+            "newCardID": "",
+            "message": "Please login first",
+        })
+    username = result.first().username
     user = models.User.objects.filter(username=username)
     lastGot = user.first().lastGot
     parentID = request.POST.get("parent", "")
     if lastGot and lastGot != parentID:
-        return redirect("/card1.html?cardID=" + str(lastGot))
+        return JsonResponse({
+            "newCardID": "",
+            "message": "Please report what you got",
+            "shouldGo": "card1.html?cardID=" + str(lastGot)
+        })
     leetcodeURL_original = request.POST.get("leetcodeURL", "")
     locFrom = leetcodeURL_original.find("https://leetcode.cn/2022-1024?id=")
     locID = locFrom + 33

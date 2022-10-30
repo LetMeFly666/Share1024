@@ -397,7 +397,7 @@ data:
 
 ### /card/share/
 
-分享一张卡牌（为判断传递卡牌和原始卡牌是否相同）
+分享一张卡牌（未判断传递卡牌和原始卡牌是否相同）
 
 **方法**
 
@@ -425,9 +425,9 @@ POST
 }
 ```
 
-若未登录：返回 到登录界面的```redirect```
+若未登录：返回```{"newCardID": "", "message": "Please login first"}```
 
-若登录且有未传递的卡牌且未传递的卡牌不是这张卡牌：返回 到正确的卡牌传递界面的```redirect```
+若登录且有未传递的卡牌且未传递的卡牌不是这张卡牌：返回```{"newCardID": "", "message": "Please share back what you got", "shouldGo": "card1.html?cardID=555"}```
 
 若力扣卡牌链接不合法：返回 ```{"newCardID": "", "message": "Not a right link"}```
 
