@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-30 14:58:02
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-30 15:22:06
+ * @LastEditTime: 2022-10-30 21:25:25
 -->
 <!DOCTYPE html>
 <html>
@@ -115,6 +115,9 @@
             const href = location.href;
             if (href.indexOf("type=&") != -1) {
                 cardType = "&";
+            }
+            else if (href.indexOf("type=+") != -1) {
+                cardType = "+";
             }
             else {
                 cardType = parseUrlParm().type;
