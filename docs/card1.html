@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-30 15:26:14
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-30 17:57:09
+ * @LastEditTime: 2022-10-30 18:17:10
 -->
 <!DOCTYPE html>
 <html>
@@ -98,7 +98,9 @@
         function realGet() {
             function handle(leetcodeURL) {
                 $("#toShowLink").text(leetcodeURL);
-                $("#toShowLink").href(leetcodeURL);
+                $("#toShowLink").attr("href", leetcodeURL);
+                // $("#toShowLink").click();
+                window.open(leetcodeURL, "_blank");
             }
             $.post(
                 "https://back.share1024.letmefly.xyz/card/oneCard/getURL/",

@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-30 10:19:43
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-30 15:18:58
+ * @LastEditTime: 2022-10-30 18:25:14
 -->
 <!DOCTYPE html>
 <html>
@@ -63,10 +63,10 @@
 
         function getRemainAndSet() {
             function set(cardRemain) {
-                var th = 1;
                 const cardDivs = $("#cardsDiv").children("div");
-                for (var key in cardRemain) {
-                    $(cardDivs[th++]).children("h3").html(`${key}<h5>${cardRemain[key]}</h5>`);
+                for (var i = 0; i < cardList.length; i++) {
+                    const key = cardList[i];
+                    $(cardDivs[i + 1]).children("h3").html(`${key}<h5>${cardRemain[key]}</h5>`);
                 }
             }
             $.get(

@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:15
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 15:12:24
+LastEditTime: 2022-10-30 18:28:53
 '''
 from django.http import JsonResponse
 from Apps import models
@@ -61,7 +61,7 @@ def cards(request):
             error.append(thisCard.cardID)
     result = models.Got.objects.filter(gotBy=username)
     for thisCard in result:
-        got.append(thisCard.cardID)
+        got.append(thisCard.gotCardID)
     return JsonResponse({
         "shared": shared,
         "got": got,
