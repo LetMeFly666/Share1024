@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 20:47:19
+LastEditTime: 2022-10-30 21:05:36
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -176,17 +176,18 @@ def share(request):
     newCard = models.Cards.objects.create(shareBy=username, cardIs=cardType, leetcodeURL=leetcodeURL)
     if parentID:
         got = models.Got.objects.filter(gotCardID=parentID, gotBy=username)
-        got.update(shareCardID=newCard.cardID)
-        th = got.first().th
-        if th == 1:
-            models.Cards.objects.filter(cardID=parentID).update(get1=1)
-        elif th == 2:
-            models.Cards.objects.filter(cardID=parentID).update(get2=1)
-        else:
-            models.Cards.objects.filter(cardID=parentID).update(get3=1)
-        # models.Cards.objects.filter(cardID=parentID).update({  # removed kwargs=
-        #     f"get{th}": 1
-        # })
+        if len(got):
+            got.update(shareCardID=newCard.cardID)
+            th = got.first().th
+            if th == 1:
+                models.Cards.objects.filter(cardID=parentID).update(get1=1)
+            elif th == 2:
+                models.Cards.objects.filter(cardID=parentID).update(get2=1)
+            else:
+                models.Cards.objects.filter(cardID=parentID).update(get3=1)
+            # models.Cards.objects.filter(cardID=parentID).update({  # removed kwargs=
+            #     f"get{th}": 1
+            # })
     return JsonResponse({
         "newCardID": newCard.cardID
     })
