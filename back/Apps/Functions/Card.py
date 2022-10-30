@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 19:06:17
+LastEditTime: 2022-10-30 19:09:37
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -80,7 +80,7 @@ def oneCard_getURL(request):
         return JsonResponse({
             "leetcodeURL": "",
             "message": "Please share back what you got",
-            "shouldGo": "card1.html?cardID=" + user.first().lastGot
+            "shouldGo": "card1.html?cardID=" + str(user.first().lastGot)
         })
     cardID = request.POST.get("cardID", "")
     if not cardID:
@@ -127,7 +127,7 @@ def share(request):
     lastGot = user.first().lastGot
     parentID = request.POST.get("parent", "")
     if lastGot and lastGot != parentID:
-        return redirect("/card1.html?cardID=" + lastGot)
+        return redirect("/card1.html?cardID=" + str(lastGot))
     leetcodeURL_original = request.POST.get("leetcodeURL", "")
     locFrom = leetcodeURL_original.find("https://leetcode.cn/2022-1024?id=")
     locID = locFrom + 33
@@ -202,7 +202,7 @@ def cannotUse(request):
         return JsonResponse({
             "response": "",
             "message": "Please report what you got",
-            "shouldGo": "card1.html?cardID=" + lastGot
+            "shouldGo": "card1.html?cardID=" + str(lastGot)
         })
     card = models.Cards.objects.filter(cardID=cardID)
     if not len(card):
