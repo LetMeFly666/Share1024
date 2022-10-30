@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-30 10:19:43
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-30 19:36:37
+ * @LastEditTime: 2022-10-30 21:08:32
 -->
 <!DOCTYPE html>
 <html>
@@ -87,7 +87,7 @@
     <script id="InitScript">
         function initCards() {
             const cardsDiv = $("#cardsDiv");
-            cardsDiv.append($('<div class="bg-info text-white col-sm-2" style="height: 100px; text-align: center;" id="cardGet"><h4 class="card-body" style="margin-top: 40px;">卡牌种类<h5>剩余张数</h5></h4></div>'));
+            cardsDiv.append($('<div class="bg-info text-white col-sm-2" style="height: 100px; text-align: center;" id="cardGet"><h4 class="card-body" style="margin-top: 40px;"><font color="red">卡牌种类</font><h5><font color="red">剩余张数</red></h5></h4></div>'));
             for (var i = 0; i < cardList.length; i++) {
                 const theNewCard = $('<div class="card bg-info text-white col-sm-2" style="height: 100px; text-align: center;" id="cardGet"><h3 class="card-body" style="margin-top: 40px;">卡牌种类</h3></div>');
                 const cardType = cardList[i];
