@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-30 15:26:14
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-30 17:07:47
+ * @LastEditTime: 2022-10-30 17:57:09
 -->
 <!DOCTYPE html>
 <html>
@@ -102,6 +102,10 @@
             }
             $.post(
                 "https://back.share1024.letmefly.xyz/card/oneCard/getURL/",
+                {
+                    "warrant1024": getCookie("warrant1024"),
+                    "cardID": cardID
+                },
                 function(response, status) {
                     if (status == "success") {
                         if (response.leetcodeURL) {
@@ -199,10 +203,17 @@
                             });
                         }
                         else {
-                            $(`#cardGet${i}`).click(() => {
-                                alert(` 请仔细阅读领取协议 `, 60, 1000);
-                                $("#get").css("display", "");
-                            });
+                            if (userinfo.username == cardInfo.shareBy) {
+                                $(`#cardGet${i}`).click(() => {
+                                    alert(" 这好像是你自己分享的卡牌呢 ", 60, 2000);
+                                });
+                            }
+                            else {
+                                $(`#cardGet${i}`).click(() => {
+                                    alert(` 请仔细阅读领取协议 `, 60, 1000);
+                                    $("#get").css("display", "");
+                                });
+                            }
                         }
                         $(`#cardGet${i}h3`).append("<h4>未领取</h4>");
                     }

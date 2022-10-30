@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 17:08:43
+LastEditTime: 2022-10-30 17:59:34
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -62,7 +62,7 @@ def oneCard(request):
 
 
 def oneCard_getURL(request):
-    warrant1024 = request.GET.get("warrant1024", "")
+    warrant1024 = request.POST.get("warrant1024", "")
     if not warrant1024:
         return JsonResponse({
             "leetcodeURL": "",
