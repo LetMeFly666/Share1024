@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 20:29:08
+LastEditTime: 2022-10-30 20:32:11
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -178,8 +178,8 @@ def share(request):
     newCard = models.Cards.objects.create(shareBy=username, cardIs=cardType, leetcodeURL=leetcodeURL)
     print(newCard)
     print(type(newCard))
-    for i in newCard:
-        print(i, type(i))
+    t = newCard.cardID
+    print(t, type(t))
     newCardID = newCard.objects.first().cardID
     print(newCardID)
     print(type(got))
