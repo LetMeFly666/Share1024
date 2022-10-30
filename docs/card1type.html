@@ -1,14 +1,14 @@
 <!--
  * @Author: LetMeFly
- * @Date: 2022-10-30 10:19:43
+ * @Date: 2022-10-30 14:58:02
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-30 15:18:58
+ * @LastEditTime: 2022-10-30 15:22:06
 -->
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>卡牌领取 - 力扣1024卡牌分享</title>
+    <title>卡牌领取 - 一类卡牌 - 力扣1024卡牌分享</title>
     <meta charset="utf-8">
     <script src="https://letmefly.xyz/Links/Common.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,11 +24,14 @@
 
     <div class="container">
         <div class="jumbotron">
-            <h1>1024卡牌领取</h1>
+            <h1 id="titleH1">1024卡牌领取</h1>
             <h3>在这里你可以领取你需要的卡牌，但是领取完成后<b>必须再分享回来</b>，白嫖哒咩</h3>
             <h3>力扣的活动一天最多领取三张卡牌，请确保自己还能领取卡牌，不要出现“今日领取已达上限”的情况</h3>
         </div>
 
+        <div style="text-align: center; width: 100%;">
+            <h2 id="allCardH2">所有卡牌</h2>
+        </div>
         <div id="cardsDiv"></div>
     </div>
 
@@ -56,24 +59,28 @@
         </div>
     </footer>
 
-    <script>
-        const cardList = [
-            "0", "1", "2", "3", "4", "5", "6", "007", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "955", "965", "996", "1024", "1075", "1037", "<<", ">>", "&", "|", "^", "+", "-", "*", "//", "%", "**"
-        ];
-
-        function getRemainAndSet() {
+    <script id="InitScript">
+        function getRemain1typeAndSet() {
             function set(cardRemain) {
-                var th = 1;
-                const cardDivs = $("#cardsDiv").children("div");
-                for (var key in cardRemain) {
-                    $(cardDivs[th++]).children("h3").html(`${key}<h5>${cardRemain[key]}</h5>`);
+                if (!cardRemain.length) {
+                    $("#allCardH2").text(`暂无卡牌[${cardType}]`);
+                }
+                const cardsDiv = $("#cardsDiv");
+                for (var i = 0; i < cardRemain.length; i++) {
+                    const theNewCard = $('<div class="card bg-info text-white col-sm-2" style="height: 100px; text-align: center;" id="cardGet"><h3 class="card-body" style="margin-top: 40px;">卡牌种类</h3></div>');
+                    const cardID = cardRemain[i];
+                    theNewCard.children("h3").text(cardType);
+                    theNewCard.click(() => {
+                        location.href = "card1.html?cardID=" + cardID;
+                    });
+                    cardsDiv.append(theNewCard);
                 }
             }
             $.get(
-                "https://back.share1024.letmefly.xyz/card/remain/all/",
+                "https://back.share1024.letmefly.xyz/card/remain/oneType/?cardType=" + cardType,
                 function(response, status) {
                     if (status == "success") {
-                        set(response);
+                        set(response.cards);
                     }
                     else {
                         alert(status);
@@ -86,9 +93,7 @@
                 }
             );
         }
-    </script>
-
-    <script id="InitScript">
+        
         function initCards() {
             const cardsDiv = $("#cardsDiv");
             cardsDiv.append($('<div class="bg-info text-white col-sm-2" style="height: 100px; text-align: center;" id="cardGet"><h4 class="card-body" style="margin-top: 40px;">卡牌种类<h5>剩余张数</h5></h4></div>'));
@@ -97,18 +102,36 @@
                 const cardType = cardList[i];
                 theNewCard.children("h3").text(cardType);
                 theNewCard.click(() => {
-                    // 不能"card1type.html?type=" + cardType，因为此时i已经变了
+                    console.log(cardType);
                     location.href = "card1type.html?type=" + cardType;
                 });
                 cardsDiv.append(theNewCard);
             }
         }
 
+        var cardType;
+
+        function changeH1() {
+            const href = location.href;
+            if (href.indexOf("type=&") != -1) {
+                cardType = "&";
+            }
+            else {
+                cardType = parseUrlParm().type;
+            }
+            if (!cardType) {
+                alert(" 错误卡牌类型 ", 60, 2000);
+                return;
+            }
+            $("#titleH1").text($("#titleH1").text() + "：" + cardType);
+            $("#allCardH2").text(`所有卡牌[${cardType}]`);
+        }
+
         $(() => {  // Onload
             adjust();
             getUserInfo();
-            initCards();
-            getRemainAndSet();
+            changeH1();
+            getRemain1typeAndSet();
         });
 
         $(window).resize(() => adjust());
