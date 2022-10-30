@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 20:37:03
+LastEditTime: 2022-10-30 20:42:58
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -172,20 +172,21 @@ def share(request):
             "newCardID": "",
             "message": "We don't have a cardType of this"
         })
-    got = models.Got.objects.filter(gotCardID=parentID, gotBy=username)
-    th = got.first().th
-    user.update(lastGot=0, shareNum=user.first().shareNum + 1)
-    newCard = models.Cards.objects.create(shareBy=username, cardIs=cardType, leetcodeURL=leetcodeURL)
-    got.update(shareCardID=newCard.cardID)
-    if th == 1:
-        models.Cards.objects.filter(cardID=parentID).update(get1=1)
-    elif th == 2:
-        models.Cards.objects.filter(cardID=parentID).update(get2=1)
-    else:
-        models.Cards.objects.filter(cardID=parentID).update(get3=1)
-    # models.Cards.objects.filter(cardID=parentID).update({  # removed kwargs=
-    #     f"get{th}": 1
-    # })
+    if parentID:
+        got = models.Got.objects.filter(gotCardID=parentID, gotBy=username)
+        th = got.first().th
+        user.update(lastGot=0, shareNum=user.first().shareNum + 1)
+        newCard = models.Cards.objects.create(shareBy=username, cardIs=cardType, leetcodeURL=leetcodeURL)
+        got.update(shareCardID=newCard.cardID)
+        if th == 1:
+            models.Cards.objects.filter(cardID=parentID).update(get1=1)
+        elif th == 2:
+            models.Cards.objects.filter(cardID=parentID).update(get2=1)
+        else:
+            models.Cards.objects.filter(cardID=parentID).update(get3=1)
+        # models.Cards.objects.filter(cardID=parentID).update({  # removed kwargs=
+        #     f"get{th}": 1
+        # })
     return JsonResponse({
         "newCardID": newCard.cardID
     })
