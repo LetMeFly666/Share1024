@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 19:52:23
+LastEditTime: 2022-10-30 19:57:36
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -147,7 +147,7 @@ def share(request):
     locID = locFrom + 33
     locUserSlugBegin = leetcodeURL_original.find("&userSlug=")
     locUserSlug = locUserSlugBegin + 10
-    if locFrom == -1 or locUserSlugBegin == -1 or locID <= locUserSlugBegin or locUserSlug >= len(leetcodeURL_original) - 1:
+    if locFrom == -1 or locUserSlugBegin == -1 or locID >= locUserSlugBegin or locUserSlug >= len(leetcodeURL_original) - 1:
         return JsonResponse({
             "newCardID": "",
             "message": "Not a right link"
