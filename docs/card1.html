@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-30 15:26:14
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-30 19:30:11
+ * @LastEditTime: 2022-10-30 20:57:49
 -->
 <!DOCTYPE html>
 <html>
@@ -234,7 +234,7 @@
                                 }, 2000);
                             });
                         }
-                        else if (userinfo.login == false) {
+                        else if (userinfo.login == false && $("User_Text").text() == "点我登录") {
                             $(`#cardGet${i}`).click(() => {
                                 alert(` 请登录再领取哦 `, 60, 1000);
                                 setTimeout(() => {
