@@ -38,5 +38,5 @@ urlpatterns = [
     path("card/oneCard/getURL/", Card.oneCard_getURL),
     path("card/share/", Card.share),
     path("card/cannotUse/", Card.cannotUse),
-    path("test/", test),  # DEBUG
+    # path("test/", test),  # DEBUG
 ]
