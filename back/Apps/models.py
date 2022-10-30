@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 11:46:50
 LastEditors: LetMeFly
-LastEditTime: 2022-10-29 19:26:00
+LastEditTime: 2022-10-30 20:07:13
 '''
 from django.db import models
 
@@ -23,7 +23,7 @@ class User(models.Model):
     lastGot = models.IntegerField(verbose_name="上次领取的卡牌ID", default=0)  # 若已分享回来，则此值为0
 
 class Cards(models.Model):
-    cardID = models.IntegerField(verbose_name="卡牌ID", primary_key=True, default=1)
+    cardID = models.IntegerField(verbose_name="卡牌ID", primary_key=True)
     shareBy = models.CharField(verbose_name="被谁分享", max_length=20)  # Link to username
     cardIs = models.CharField(verbose_name="卡牌是什么", max_length=4)
     get1 = models.IntegerField(verbose_name="第一次领取", default=0)  #   | 0：待领取
