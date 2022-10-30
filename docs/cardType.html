@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-30 10:19:43
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-30 14:15:39
+ * @LastEditTime: 2022-10-30 14:32:45
 -->
 <!DOCTYPE html>
 <html>
@@ -63,13 +63,16 @@
 
         function getRemainAndSet() {
             function set(cardRemain) {
-                
+                var th = 1;
+                const cardDivs = $("#cardsDiv").children("div");
+                for (var key in cardRemain) {
+                    $(cardDivs[th++]).children("h3").html(`${key}<h5>${cardRemain[key]}</h5>`);
+                }
             }
             $.get(
                 "https://back.share1024.letmefly.xyz/card/remain/all/",
                 function(response, status) {
                     if (status == "success") {
-                        console.log(response);
                         set(response);
                     }
                     else {
@@ -88,8 +91,9 @@
     <script id="InitScript">
         function initCards() {
             const cardsDiv = $("#cardsDiv");
+            cardsDiv.append($('<div class="bg-info text-white col-sm-2" style="height: 100px; text-align: center;" id="cardGet"><h4 class="card-body" style="margin-top: 40px;">卡牌种类<h5>剩余张数</h5></h4></div>'));
             for (var i = 0; i < cardList.length; i++) {
-                const theNewCard = $('<div class="card bg-info text-white col-sm-2" style="height: 100px; text-align: center;" id="cardGet"><h3 class="card-body" style="margin-top: 40px;">1</h3></div>');
+                const theNewCard = $('<div class="card bg-info text-white col-sm-2" style="height: 100px; text-align: center;" id="cardGet"><h3 class="card-body" style="margin-top: 40px;">卡牌种类</h3></div>');
                 const cardType = cardList[i];
                 theNewCard.children("h3").text(cardType);
                 theNewCard.click(() => {
