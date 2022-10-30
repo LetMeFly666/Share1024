@@ -1,14 +1,14 @@
 <!--
  * @Author: LetMeFly
- * @Date: 2022-10-30 15:26:14
+ * @Date: 2022-10-30 18:36:25
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-30 19:01:07
+ * @LastEditTime: 2022-10-30 18:41:58
 -->
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>卡牌领取 - 一张卡牌 - 力扣1024卡牌分享</title>
+    <title>卡牌分享 - 力扣1024卡牌分享</title>
     <meta charset="utf-8">
     <script src="https://letmefly.xyz/Links/Common.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,10 +24,10 @@
 
     <div class="container">
         <div class="jumbotron">
-            <h1 id="titleH1">1024卡牌领取</h1>
-            <h3>力扣的活动一天最多领取三张卡牌，请确保自己还能领取卡牌，不要出现“今日领取已达上限”的情况</h3>
-            <h3>在此网站领取的卡牌，必须再分享回来</h3>
-            <h3>为了便于统计，分享回来的卡牌链接请<b>勿直接</b>分享给他人，请使用此页链接分享给他人</h3>
+            <h1 id="titleH1">卡牌分享：赠人玫瑰，手有余香</h1>
+            <h2>感谢前来分享！</h2>
+            <h3>但是请保证链接有效并且此卡牌未被领取过哦</h3>
+            <h3>在这里分享过后，就不要再</h3>
         </div>
         <div style="text-align: center; width: 100%;">
             <h2 id="shareByH2">ShareBy: </h2>
@@ -50,7 +50,7 @@
 
         <div id="get" style="display: none;">
             <h2>领取前，请知情并同意以下须知</h2>
-            <ol class="list-group" id="NoticeOL">
+            <ol class="list-group">
                 <li class="list-group-item"><h3>请确保自己的账号今日仍可领取卡牌</h3></li>
                 <li class="list-group-item"><h3>领取后请及时回来分享 并 点击下方“传递卡牌”按钮</h3></li>
                 <li class="list-group-item"><h3>领取成功后，你所得到的卡牌请<font color="red">勿直接</font>分享给他人</h3></li>
@@ -67,7 +67,6 @@
         <div style="text-align: center; margin-top: 10px;">
             <button class="btn btn-info" onclick="share2others();"><h3>将此卡牌分享给他人</h3></button>
             <button class="btn btn-primary" onclick="gotoShare();"><h3>传递卡牌</h3></button>
-            <button class="btn btn-primary" onclick="reportUseless();" style="display: none;" id="uselessButton"><h3>此卡无效？</h3></button>
         </div>
     </div>
 
@@ -96,46 +95,12 @@
     </footer>
 
     <script>
-        function reportUseless() {
-            alert(" 2秒后上报“此卡无效” ", 60, 3000);  // 还是3秒吧，这样来得及反应
-            setTimeout(() => {
-                $.post(
-                    "https://back.share1024.letmefly.xyz/card/cannotUse/",
-                    {
-                        "warrant1024": getCookie("warrant1024"),
-                        "cardID": cardID
-                    },
-                    function(response, status) {
-                        if (status == "success") {
-                            if (response.leetcodeURL) {
-                                alert(" “此卡无效”已上报，去看看其他卡牌吧 ", 60, 2000);
-                            }
-                            else {
-                                alert(response.message, 60, 2000);
-                            }
-                        }
-                        else {
-                            alert(status);
-                        }
-                    },
-                    "json"
-                ).fail(
-                    function() {
-                        alert(" 未知错误 ", 60, 2000);
-                    }
-                );
-            }, 3000);
-        }
-
         function realGet() {
             function handle(leetcodeURL) {
                 $("#toShowLink").text(leetcodeURL);
                 $("#toShowLink").attr("href", leetcodeURL);
                 // $("#toShowLink").click();
                 window.open(leetcodeURL, "_blank");
-
-                $("#uselessButton").css("display", "");
-                $("#NoticeOL").append($('<li class="list-group-item"><h3><font color="red">若卡牌无法领取，请点击“此卡无效按钮”</font></h3></li>'));
             }
             $.post(
                 "https://back.share1024.letmefly.xyz/card/oneCard/getURL/",
@@ -290,24 +255,12 @@
         function getCardID() {
             cardID = parseUrlParm().cardID;
         }
-
-        function initUselessButton() {
-            const timeList = [100, 200, 500, 1000, 2000, 3000, 5000, 7500, 10000];
-            for (var i = 0; i < timeList.length; i++) {
-                setTimeout(() => {
-                    if (userinfo.cardNotShare) {
-                        $("#uselessButton").css("display", "");
-                    }
-                }, timeList[i]);
-            }
-        }
         
         $(() => {  // Onload
             adjust();
             getUserInfo();
             getCardID();
             getCardInfoAndSet();
-            initUselessButton();
         });
 
         $(window).resize(() => adjust());

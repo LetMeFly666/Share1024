@@ -389,7 +389,7 @@ data:
 
 若未登录：返回```{"leetcodeURL": "", "message": "Please login first"}```
 
-若登录且有未传递的卡牌：返回```{"leetcodeURL": "", "message": "Please share back what you got"}```
+若登录且有未传递的卡牌：返回```{"leetcodeURL": "", "message": "Please share back what you got", "shouldGo": "card1.html?cardID=555"}```
 
 若卡牌为空或不存在：返回```{"leetcodeURL": "", "message": "Card doesn't exist"}```
 
@@ -407,6 +407,7 @@ POST
 
 ```json
 {
+    "warrant1024": "theWarrant484s48e4fs84e",
     "parent": "",  // 若为领取后的传递而不是直接分享，则parent为空串；否则parent为领取自的卡牌  // 若parent的ID不合法，则默认为直接分享
     "leetcodeURL": "https://leetcode.cn/2022-1024?id=1111111&userSlug=tisfy",  // 力扣卡牌分享链接
     "type": "007",  // 卡牌类型
@@ -446,6 +447,7 @@ data
 
 ```json
 {
+    "warrant1024": "theWarrant484s48e4fs84e",
     "cardID": 159
 }
 ```
@@ -460,13 +462,17 @@ data
 }
 ````
 
-若未登录：返回 到登录界面的```redirect```
+若未登录：返回```{"response": "", "message": "Please login first"}```
 
-若登录且有为传递的卡牌且未传递的卡牌不是这张卡牌：返回 到正确的卡牌传递界面的```redirect```
+若登录且有为传递的卡牌且未传递的卡牌不是这张卡牌：返回```{"response": "", "message": "Please report what you got", "shouldGo": "card1.html?cardID=555"}```
 
 若登录且无未传递的卡牌：返回```{"response": "", "message": "Sorry, you shouldn't report this card"}```
 
 若被报卡牌不存在：返回```{"response": "", "message": "The cardID is unavailable"}```
+
+## TODO
+
++ 一人领两次的问题
 
 ## End
 
