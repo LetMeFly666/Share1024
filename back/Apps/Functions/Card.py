@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 21:11:46
+LastEditTime: 2022-10-30 21:31:23
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -24,6 +24,10 @@ def remain_all(request):
 
 def remain_oneType(request):
     cardType = request.GET.get("cardType", "")
+    if cardType == "ADD":
+        cardType = "+"
+    if cardType == "AND":
+        cardType = "&"
     if cardType not in cardList:
         return JsonResponse({
             "cards": []

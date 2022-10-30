@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-30 14:58:02
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-30 21:25:25
+ * @LastEditTime: 2022-10-30 21:30:43
 -->
 <!DOCTYPE html>
 <html>
@@ -76,8 +76,13 @@
                     cardsDiv.append(theNewCard);
                 }
             }
+            const newCardType = cardType;
+            if (newCardType == "+")
+                newCardType = "ADD";
+            if (newCardType == "+")
+                newCardType = "AND";
             $.get(
-                "https://back.share1024.letmefly.xyz/card/remain/oneType/?cardType=" + cardType,
+                "https://back.share1024.letmefly.xyz/card/remain/oneType/?cardType=" + newCardType,
                 function(response, status) {
                     if (status == "success") {
                         set(response.cards);
