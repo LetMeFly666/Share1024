@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 19:57:36
+LastEditTime: 2022-10-30 19:59:09
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -155,8 +155,9 @@ def share(request):
     cardID = leetcodeURL_original[locID : locUserSlugBegin]
     userSlug = ""
     for i in range(locUserSlug, len(leetcodeURL_original)):
-        if ord('0') <= ord(i) <= ord('9') or ord('a') <= ord(i) <= ord('z') or ord('A') <= ord(i) <= ord('Z') or i == '-' or i == '_':
-            userSlug += leetcodeURL_original[i]
+        thisChar = leetcodeURL_original[i]
+        if ord('0') <= ord(thisChar) <= ord('9') or ord('a') <= ord(thisChar) <= ord('z') or ord('A') <= ord(thisChar) <= ord('Z') or thisChar == '-' or thisChar == '_':
+            userSlug += thisChar
         else:
             break
     if not cardID.isdecimal() or not userSlug:
