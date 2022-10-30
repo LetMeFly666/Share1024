@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-30 18:36:25
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-30 19:44:42
+ * @LastEditTime: 2022-10-30 19:48:42
 -->
 <!DOCTYPE html>
 <html>
@@ -102,8 +102,11 @@
                 },
                 function(response, status) {
                     if (status == "success") {
-                        if (response.leetcodeURL) {
-                            handle(response.leetcodeURL);
+                        if (response.newCardID) {
+                            alert(" 分享成功！所分享的卡牌ID为： " + response.newCardID, 60, 2000);
+                            setTimeout(() => {
+                                location.href = "card1.html?cardID=" + response.newCardID;
+                            }, 2000);
                         }
                         else {
                             alert(response.message, 60, 2000);
