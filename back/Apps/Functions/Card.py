@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:22
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 19:14:20
+LastEditTime: 2022-10-30 19:17:42
 '''
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -212,7 +212,7 @@ def cannotUse(request):
         })
     user.update(lastGot=0)
     shareBy = models.User.objects.filter(username=card.first().shareBy)
-    shareBy.update(cannotUseTimes=shareBy.first().cannotUseTime + 1)
+    shareBy.update(cannotUseTimes=shareBy.first().cannotUseTimes + 1)
     got = models.Got.objects.filter(gotCardID=cardID, gotBy=username)
     got.update(state=2)
     if got.first().th == 1:
