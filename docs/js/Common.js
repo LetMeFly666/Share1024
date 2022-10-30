@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-29 09:59:22
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-30 10:41:00
+ * @LastEditTime: 2022-10-30 14:56:55
  */
 function adjust() {
     // adjustFooter
@@ -84,9 +84,9 @@ function getUserInfo(successCallback, failCallback, notloginCallback) {
                 alert(" 有领取的卡牌未传递哦 ", height=60, time=2000);
                 setTimeout(() => {
                     const nowHref = location.href;
-                    if (nowHref.indexOf("/card1.html") == -1 || parseUrlParm().cardID != userinfo.cardNotShare) {
+                    if ((nowHref.indexOf("/share.html") == -1 && nowHref.indexOf("/card1.html") == -1) || parseUrlParm().cardID != userinfo.cardNotShare) {
                         // TODO: TEST
-                        location.href = "card1.html?cardID=" + userinfo.cardNotShare;
+                        location.href = "share.html?cardID=" + userinfo.cardNotShare;
                     }
                 }, 1000);
             }
