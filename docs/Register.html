@@ -2,7 +2,7 @@
  * @Author: LetMeFly
  * @Date: 2022-10-29 10:17:00
  * @LastEditors: LetMeFly
- * @LastEditTime: 2022-10-29 20:31:23
+ * @LastEditTime: 2022-10-30 10:18:56
 -->
 <!DOCTYPE html>
 <html>
@@ -19,6 +19,7 @@
 </head>
 
 <body>
+    <a id="User" href="login.html" style="position: absolute; top: 0; border: 0; right: 30px; font-family: 楷体; border: 2px solid rgb(51, 122, 192);"><h2 id="User_Text">点我登录</h2></a>
     
     <div class="container">
         <div class="jumbotron">
@@ -215,9 +216,18 @@
     </script>
 
     <script id="InitScript">
+        function showTips() {
+            if (userinfo.username) {
+                alert("Hello, " + userinfo.username + "! 想要再注册一个账号吗？", 60, 5000);
+            }
+        }
+
         $(() => {  // Onload
             adjust();
-            getUserinfo();  // 起到有未传递的卡牌直接跳到卡牌传递界面的作用
+            getUserInfo();  // 起到有未传递的卡牌直接跳到卡牌传递界面的作用
+            setTimeout(() => {
+                showTips();
+            }, 10000);
         });
 
         $(window).resize(() => adjust());
