@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 18:04:15
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 18:28:53
+LastEditTime: 2022-10-31 13:43:48
 '''
 from django.http import JsonResponse
 from Apps import models
@@ -111,7 +111,7 @@ def register(request):
         """
         只判断是否合法的名字，并判断是否已经存在
         """
-        if len(username) < 1 or len(username) > 10:
+        if len(username) < 1 or len(username) > 30:
             return False
         if '\'' in username or '"' in username:
             return False

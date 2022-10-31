@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 11:46:50
 LastEditors: LetMeFly
-LastEditTime: 2022-10-30 20:13:51
+LastEditTime: 2022-10-31 13:43:29
 '''
 from django.db import models
 
@@ -15,7 +15,7 @@ class Email(models.Model):
     code = models.CharField(verbose_name="验证码", max_length=8)
 
 class User(models.Model):
-    username = models.CharField(verbose_name="力扣id", max_length=20, unique=True)
+    username = models.CharField(verbose_name="力扣id", max_length=30, unique=True)
     password = models.CharField(verbose_name="密码", max_length=20)
     email = models.EmailField(verbose_name="邮箱", max_length=50, unique=True)
     shareNum = models.IntegerField(verbose_name="一共分享了多少卡牌", default=0)
