@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-31 14:04:44
 LastEditors: LetMeFly
-LastEditTime: 2022-10-31 14:12:05
+LastEditTime: 2022-10-31 14:44:56
 '''
 import requests
 
@@ -23,9 +23,15 @@ https://share1024.letmefly.xyz/
 """
 
 cards = response.json()
+cardList = []
 
 for cardID in cards:
-    remain += f"+ 分享卡牌“{cards[cardID]}”：https://share1024.letmefly.xyz/card1.html?cardID={cardID}\n"
+    cardList.append((cards[cardID], cardID))
+
+cardList.sort()
+
+for cardType, cardID in cardList:
+    remain += f"+ 分享卡牌“{cardType}”：https://share1024.letmefly.xyz/card1.html?cardID={cardID}\n"
 
 print(remain)
 
