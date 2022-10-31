@@ -296,6 +296,22 @@ GET
 }
 ```
 
+### /card/remain/typeAndID/
+
+获取所有有剩余的卡牌，按ID排列
+
+**方法**
+
+GET
+
+**返回**
+
+```json
+{
+    "125": "007"  // "卡牌ID": "卡牌种类"
+}
+```
+
 ### /card/remain/oneType/?cardType={卡牌类型}
 
 返回某（一）种卡牌的所有未被领取的卡牌的ID

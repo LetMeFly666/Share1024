@@ -1,3 +1,9 @@
+'''
+Author: LetMeFly
+Date: 2022-10-27 10:55:40
+LastEditors: LetMeFly
+LastEditTime: 2022-10-31 13:52:35
+'''
 """Let1024 URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -33,6 +39,7 @@ urlpatterns = [
     path("user/register/", User.register),
     path("user/register/sendCode/", User.register_sendCode),
     path("card/remain/all/", Card.remain_all),
+    path("card/remain/typeAndID/", Card.remain_typeAndID),
     path("card/remain/oneType/", Card.remain_oneType),
     path("card/oneCard/", Card.oneCard),
     path("card/oneCard/getURL/", Card.oneCard_getURL),
