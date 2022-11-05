@@ -2,7 +2,7 @@
 Author: LetMeFly
 Date: 2022-10-28 11:46:50
 LastEditors: LetMeFly
-LastEditTime: 2022-10-31 13:43:29
+LastEditTime: 2022-11-05 09:11:24
 '''
 from django.db import models
 
@@ -24,7 +24,7 @@ class User(models.Model):
 
 class Cards(models.Model):
     cardID = models.AutoField(verbose_name="卡牌ID", primary_key=True)
-    shareBy = models.CharField(verbose_name="被谁分享", max_length=20)  # Link to username
+    shareBy = models.CharField(verbose_name="被谁分享", max_length=30)  # Link to username
     cardIs = models.CharField(verbose_name="卡牌是什么", max_length=4)
     get1 = models.IntegerField(verbose_name="第一次领取", default=0)  #   | 0：待领取
     get2 = models.IntegerField(verbose_name="第二次领取", default=0)  # --| 1：已领取
@@ -34,11 +34,11 @@ class Cards(models.Model):
 
 class Got(models.Model):
     gotCardID = models.IntegerField(verbose_name="被领取卡牌ID")
-    gotBy = models.CharField(verbose_name="被谁领取", max_length=20)  # Link to username
+    gotBy = models.CharField(verbose_name="被谁领取", max_length=30)  # Link to username
     shareCardID = models.IntegerField(verbose_name="传递的卡牌ID", default=0)
     state = models.IntegerField(verbose_name="状态", default=0)  # 0：已领取  1：已分享  2：报无效
     th = models.IntegerField(verbose_name="此卡的第几次被领取")
 
 class Cookie(models.Model):
     warrant1024 = models.CharField(verbose_name="warrant", max_length=20)
-    username = models.CharField(verbose_name="被谁领取", max_length=20)  # Link to username
+    username = models.CharField(verbose_name="被谁领取", max_length=30)  # Link to username
